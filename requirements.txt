@@ -1,0 +1,4 @@
+Django
+
+# Required for ImageField for profile picture
+Pillow     
