@@ -2,3 +2,6 @@ Django
 
 # Required for ImageField for profile picture
 Pillow     
+
+# Required for form input validation
+regex
