@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
 
-def home_view(request):
+def dashboard_view(request):
      if request.method == "GET":
-          return render(request, "home.html")
+          return render(request, "dashboard.html")

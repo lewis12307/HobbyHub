@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+     <h1>Your Hobbies</h1>
+     
+     
+     <ul>
+          {% for hobby in hobbies %}
+               <li><a href="{% url 'hobbies:hobby_detail' hobby.name %}">{{ hobby.name }}</a></li>
+          {% empty %}
+               <li>You haven't added any hobbies yet.</li>
+          {% endfor %}
+     </ul>
+
+     <a href="{% url 'hobbies:create_hobby' %}">Create Hobby</a>
+{% endblock %}
+

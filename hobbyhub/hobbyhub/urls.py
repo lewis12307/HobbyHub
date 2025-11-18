@@ -16,7 +16,7 @@ from django.urls import path
 from django.shortcuts import redirect
 
 from django.urls import include
-from .views import home_view
+from .views import dashboard_view
 
 from django.conf.urls.static import static
 
@@ -26,8 +26,10 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path("", lambda request: redirect("accounts:login")),
-    path("home/", home_view, name="home"),      # fix naming?
-    path("accounts/", include("accounts.urls")),    
+    path("dashboard/", dashboard_view, name="dashboard"),     
+    path("accounts/", include("accounts.urls")),  
+    path("hobbies/", include("hobbies.urls")),
+    path("sessions/", include("hobby_sessions.urls")),
     path("admin/", admin.site.urls),
 ]
 

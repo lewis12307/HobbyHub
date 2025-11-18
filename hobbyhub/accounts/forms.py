@@ -58,16 +58,16 @@ class SignUpForm(forms.Form):
           validators = [MinLengthValidator(
                limit_value=8, 
                message="Oops ... It looks like your password is too short. Try making it at least 8 characters long.",
-          )]
+          )],
+          widget=forms.PasswordInput(),
      )    
-          # improve password validation
 
 
      bio = forms.CharField(
           label="Bio", 
-          strip=True, 
           required=False, 
-          empty_value=None
+          empty_value=None,
+          widget=forms.Textarea(attrs={"rows": 3}),
      )
      
 
@@ -80,6 +80,7 @@ class SignUpForm(forms.Form):
                "invalid_image": "Hmm… that file doesn’t seem to be an image. Please upload a JPG or PNG.",
           }
      )
+
 
 
      # checks whether the username is already taken or not
@@ -106,23 +107,28 @@ class LoginForm(forms.Form):
           label="Username",  
           max_length=150, 
           strip=True, 
-          required=True
+          required=True,
      )   
 
      password = forms.CharField(
           label="Password", 
           max_length=255, 
           strip=True, 
-          required=True
+          required=True,
+          widget=forms.PasswordInput(),
      )
+
+
 
      # check that provided username exists and it is tied to an account in database 
      # if not, notify user
      def clean_username(self):
-        username = self.cleaned_data.get("username")
-        if not User.objects.filter(username=username).exists():
-            raise forms.ValidationError(
-                "Hmm… We couldn’t find anyone with that username. Want to try again?"
-            )
-        return username
+          username = self.cleaned_data.get("username")
+          if not User.objects.filter(username=username).exists():
+               raise forms.ValidationError(
+                    "Hmm… We couldn’t find anyone with that username. Want to try again?"
+               )
+          return username
+
+
 

@@ -35,7 +35,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "accounts"
+    'accounts',
+    'hobbies',
+    'hobby_sessions',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +128,12 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
+
+
 
 
 MEDIA_URL = '/media/'          # tells the browser: “look under /media/ to load user-uploaded files
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')       # tells Django to store all uploaded files in a folder named media/ inside the project’s base directory
+MEDIA_ROOT = BASE_DIR /'media'       # tells Django to store all uploaded files in a folder named media/ inside the project’s base directory

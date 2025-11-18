@@ -3,7 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>{% block title %}HobbyHub{% endblock %}</title>
+    {% load static %}
+    <script src="{% static '/js/delete_dialog.js' %}"></script>
 </head>
 
 <body>
@@ -20,7 +22,6 @@
 
     {% block content %}
     {% endblock %}
-    
 </body>
 
 </html>

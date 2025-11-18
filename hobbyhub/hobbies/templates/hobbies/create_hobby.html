@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>New Hobby</h1>
+
+    <form method="POST">
+        <!-- generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks -->
+        {% csrf_token %} 
+
+        {{ form }}
+        <button type="submit">Create</button>
+    </form>
+{% endblock %}
