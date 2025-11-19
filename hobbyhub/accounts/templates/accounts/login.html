@@ -1,18 +1,20 @@
 {% extends "base.html" %}
 
-
+{# override block below so nav is not included #}
+{% block nav %}
+{% endblock %}
 
 
 {% block content %}
-<h2>Log In</h2>
+    <h2>Log In</h2>
 
-<form method="POST">
-     <!-- generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks -->
-     {% csrf_token %} 
+    <form method="POST">
+        {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+        {% csrf_token %} 
 
-     {{ form }}
-    <button type="submit">Log In</button>
-</form>
+        {{ login_form }}
+        <button type="submit">Log In</button>
+    </form>
 
-<p>Don't have an account yet? <a href="{% url 'accounts:signup' %}">Sign Up</a></p>
+    <p>Don't have an account yet? <a href="{% url 'accounts:signup' %}">Sign Up</a></p>
 {% endblock %}

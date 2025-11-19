@@ -5,10 +5,14 @@
     <meta charset="UTF-8">
     <title>{% block title %}HobbyHub{% endblock %}</title>
     {% load static %}
-    <script src="{% static '/js/delete_dialog.js' %}"></script>
+    <script src="{% static '/js/dialog.js' %}"></script>
 </head>
 
 <body>
+    {% block nav %}
+        {% include 'nav.html' %}
+    {% endblock %}
+    
     {% block messages %}
         {% if messages %}
             <div class="messages">
@@ -18,7 +22,6 @@
             </div>
         {% endif %}
     {% endblock %}
-
 
     {% block content %}
     {% endblock %}

@@ -1,0 +1,5 @@
+<div>
+     <a href="{% url 'dashboard' %}">Dashboard</a>
+     <a href="{% url 'hobbies:hobbies' %}">Your Hobbies</a>
+     <a href="{% url 'accounts:profile' request.user.username %}">Profile</a>
+</div>

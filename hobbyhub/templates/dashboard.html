@@ -1,12 +1,6 @@
 {% extends "base.html" %}
 
 
-
-
-{% block content %}
+{% block content %}     
      <h1>Dashboard</h1>    
-
-     <a href="{% url 'accounts:profile' request.user.username %}">Profile</a>
-
-     <a href="{% url 'hobbies:hobbies_list' %}">Your Hobbies</a>
 {% endblock %}

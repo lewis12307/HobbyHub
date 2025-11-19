@@ -1,24 +1,31 @@
 {% extends "base.html" %}
 
-
 {% block content %}
+     {# show profile picture, only if user provided one #}
      {% if profile.profile_picture %}
           <img src="{{ profile.profile_picture.url }}" alt="{{ user.get_username }}'s Profile Picture">
      {% endif %}
 
      <h1>{{ user.get_username }}</h1>
      <h2>{{ user.get_short_name }}</h2>
-     <h3>Bio</h3>
+     <h2>Bio</h3>
      <p>{{ profile.bio }}</p>
 
+
+     <h2>{{ user.get_short_name }}'s Hobbies</h3>
+     {% include "hobbies/hobbies_list.html" %}
+
+
+
      <form action="{% url 'accounts:logout' %}" method="POST">
-          {% csrf_token %}
+          {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+          {% csrf_token %} 
           <button type="submit">Logout</button>
      </form>
 
 
-     <button type="button" onclick="openDeleteDialog('delete_account')">Delete Account</button>
-     {% include "delete_dialog.html" with dialog_id="delete_account" title="Your Account" message="Are you sure you would like to delete your account? This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it" cancel_text="No, wait, nevermind" %}
-
+     {# include and show separate dialog to confirm user wants to delete their profile when they click 'Delete Profile' Button below #}
+     {% include "delete_dialog.html" with dialog_id="delete_account" title="Your Account" message="Are you sure you would like to delete your account? This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it" %}
+     <button type="button" onclick="openDialog('delete_account')">Delete Profile</button>
 {% endblock %}
 

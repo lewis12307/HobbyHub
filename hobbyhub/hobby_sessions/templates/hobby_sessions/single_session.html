@@ -1,0 +1,14 @@
+{% block session %}
+     {# show session picture, only if user provided one #}
+     {% if session.upload %}
+          <img src="{{ session.upload.url }}">
+     {% endif %}
+
+     <h3>Date: {{ session.date }}</h3>
+     <h3>Duration: {{ session.duration }}</h3>
+
+     {# show session description, only if user provided one #}
+     {% if session.description %}
+          <p>Description: {{ session.description }}</p>
+     {% endif %}
+{% endblock %}

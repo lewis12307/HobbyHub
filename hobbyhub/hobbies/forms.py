@@ -20,17 +20,47 @@ class CreateHobbyForm(forms.Form):
      )
 
 
-
-     # check if user already has a hobby with this name,
      def clean_name(self):
           name = self.cleaned_data.get("name")
-          user = getattr(self, "user", None)
-          if Hobby.objects.filter(user=user, name__iexact=name).exists():
+          user_profile = getattr(self, "user_profile", None)    # get the UserProfile that is attached to the form
+
+          # check if user already has a hobby with the provided name (case insensitive)
+          # if they do, raise ValidationError and tell user
+          if Hobby.objects.filter(user_profile=user_profile, name__iexact=name).exists():
                raise forms.ValidationError("Hmm… it looks like you already have a hobby with that name. Try a different one.")
           return name
 
 
 
 
-class SortHobbiesForm(forms.Form):
-     filter = forms.ChoiceField(choices=["Most Recent", "Creation Date", "Name", "Time Spent"])
+
+
+
+
+class SortHobbiesForm(forms.Form):     
+     sort_choice = forms.ChoiceField(
+          label="Sort",
+          choices=[
+               ("recent_activity", "Recent Activity"),
+               ("name", "Name (A–Z)"),
+               ("start_date", "Start Date"),
+               ("time_spent", "Time Spent"),
+               ("number_of_sessions", "Number of Sessions")
+          ],
+          widget=forms.Select(
+               attrs={'onchange': 'this.form.submit();'}     # Automatically submit the form when the user changes the selection
+          ),      
+          required=False,
+    )
+     
+     order = forms.ChoiceField(
+          label="Order",
+          choices=[
+               ("asc", "Ascending"),
+               ("desc", "Descending"),
+          ],
+           widget=forms.Select(
+               attrs={'onchange': 'this.form.submit();'}     # Automatically submit the form when the user changes the selection
+          ),    
+          required=False,
+    )

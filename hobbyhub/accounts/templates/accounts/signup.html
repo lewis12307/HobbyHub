@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
+{# override block below so nav is not included #}
+{% block nav %}
+{% endblock %}
 
 {% block content %}
     <h2>Sign Up</h2>
 
     <form method="POST" enctype="multipart/form-data">
-        <!-- generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks -->
+        {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
         {% csrf_token %} 
 
-        {{ form }}
+        {{ signup_form }}
         <button type="submit">Sign Up</button>
     </form>
 {% endblock %}

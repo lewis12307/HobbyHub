@@ -2,21 +2,17 @@
 
 
 {% block content %}
-    <h1>{{ hobby.name }}</h1>
+    <h1>{{ hobby.name|title }}</h1>
+    <h3>Number of Sessions: {{ hobby.session_count }}</h3>
+    <h3>Time Spent on This Hobby: {{ hobby.total_time_spent }}</h3>
+
+     <a href="{% url 'hobby_sessions:create_session' hobby.name %}">Add Session</a>
+
+     {# include and show separate dialog to confirm user wants to delete this Hobby, when they click 'Delete Hobby' Button below #}
+     {% include "delete_dialog.html" with dialog_id="delete_hobby" title=hobby_name message="Are you sure you would like to delete this hobby? This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it" %}
+     <button type="button" onclick="openDialog('delete_hobby')">Delete Hobby</button>
 
 
-     <!-- <h2>How Long</h2>
-     <h2>Number of Sessions</h2> -->
-     <!-- display sessions -->
-
-     <form action="{% url 'hobby_sessions:add_session' hobby.name %}" method="POST">
-          {% csrf_token %}
-          <button type="submit">Add Session</button>
-          <!-- add icon -->
-     </form>
-
-     <button type="button" onclick="openDeleteDialog('delete_hobby')">Delete Hobby</button>
-     {% include "delete_dialog.html" with dialog_id="delete_hobby" title=hobby.name message="Are you sure you would like to delete this hobby? This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it" cancel_text="No, keep it" %}
-
+     {% include 'hobby_sessions/sessions_list.html' %}
 {% endblock %}
  

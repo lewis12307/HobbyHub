@@ -19,19 +19,19 @@ from django.urls import reverse
 def signup_view(request):
      if request.method == "GET":
            # create a blank signup form for user to fill in
-          form = SignUpForm()   
+          signup_form = SignUpForm()   
 
            # render the template and show the empty signup form to the user
-          return render(request, "accounts/signup.html", {"form": form})    
+          return render(request, "accounts/signup.html", {"signup_form": signup_form})    
 
 
      if request.method == "POST":
           # create a form instance and fill it with the data the user submitted
-          form = SignUpForm(request.POST, request.FILES)
+          signup_form = SignUpForm(request.POST, request.FILES)
 
           # validate and process form input
-          if form.is_valid():
-               cleaned_input = form.cleaned_data
+          if signup_form.is_valid():
+               cleaned_input = signup_form.cleaned_data
                first_name = cleaned_input['first_name'].title()
                last_name = cleaned_input['last_name']
                if last_name:
@@ -70,28 +70,26 @@ def signup_view(request):
 
           # If input is invalid, notify user and show signup form again with errors
           messages.error(request, "We couldn’t create your profile just yet. It looks like a few details need another look.")
-          return render(request, "accounts/signup.html", {"form": form})
+          return render(request, "accounts/signup.html", {"signup_form": signup_form})
      
-
-
 
 
 def login_view(request):
     if request.method == "GET":
           # create a blank login form for user to fill in
-          form = LoginForm()   
+          login_form = LoginForm()   
 
           # render the template and show the empty login form to the user
-          return render(request, "accounts/login.html", {"form": form})
+          return render(request, "accounts/login.html", {"login_form": login_form})
     
 
     if request.method == "POST":
           # create a form instance and fill it with the data the user submitted
-          form = LoginForm(request.POST)     
+          login_form = LoginForm(request.POST)     
 
           # validate and process form input
-          if form.is_valid():
-               cleaned_input = form.cleaned_data
+          if login_form.is_valid():
+               cleaned_input = login_form.cleaned_data
                username = cleaned_input["username"]
                password = cleaned_input["password"]
 
@@ -104,12 +102,10 @@ def login_view(request):
                     return redirect("dashboard")   
                # attach an error message to the form if authentication fails and display it to user
                elif user is None:
-                    form.add_error(None, "Hmm… something didn’t match. Please try entering your username and password again.")
+                    login_form.add_error(None, "Hmm… something didn’t match. Please try entering your username and password again.")
 
           # if input is not valid or authentication failed, show login form again with errors
-          return render(request, "accounts/login.html", {"form": form})
-
-
+          return render(request, "accounts/login.html", {"login_form": login_form})
 
 
 
@@ -118,12 +114,15 @@ def profile_view(request, username):
           if request.user.is_authenticated:   # check if user is logged in currently
                #user = request.user
                user = User.objects.get(username=username)
-               profile = user.userprofile     # access the UserProfile linked to the User
+               user_profile = user.userprofile     # access the UserProfile linked to the User
+               hobbies = user_profile.hobbies.all()    # get all Hobbies for that UserProfile
+
                delete_url = reverse("accounts:delete")
                return render(request, "accounts/profile.html", {
                     "user": user,
-                    "profile": profile,
+                    "profile": user_profile,
                     "delete_url": delete_url,
+                    "hobbies": hobbies
                })          
           # if user is not logged in, redirect them to login page
           else:
@@ -148,7 +147,9 @@ def delete_user_view(request):
           user = request.user
           profile = user.userprofile
 
+          # delete User, UserProfile from database 
           user.delete()
-          profile.delete()
+          # profile.delete()    # do not need to delete profile manually because of on_delete=models.CASCADE on User
           
+          # redirect user back to login page 
           return redirect("accounts:login") 

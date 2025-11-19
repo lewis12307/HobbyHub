@@ -52,6 +52,7 @@ class SignUpForm(forms.Form):
      password = forms.CharField(
           label="Password", 
           help_text="Please enter a strong password and make sure it is at least 8 characters long.", 
+          widget=forms.PasswordInput(),
           max_length=255, 
           strip=True, 
           required=True, 
@@ -59,7 +60,6 @@ class SignUpForm(forms.Form):
                limit_value=8, 
                message="Oops ... It looks like your password is too short. Try making it at least 8 characters long.",
           )],
-          widget=forms.PasswordInput(),
      )    
 
 
@@ -73,11 +73,12 @@ class SignUpForm(forms.Form):
 
      profile_picture = forms.ImageField(
           label="Profile Picture", 
+          widget=forms.FileInput(),
           required=False,
           validators=[validate_image_file_extension],
           error_messages={     # override default error messages to be friendlier
                "invalid_extension": "Hmm… that file doesn’t seem to be an image. Please upload a JPG or PNG.",
-               "invalid_image": "Hmm… that file doesn’t seem to be an image. Please upload a JPG or PNG.",
+               "invalid_image": "Hmm… that file doesn’t look like an image I can read. Please upload a different file.",
           }
      )
 
@@ -112,10 +113,10 @@ class LoginForm(forms.Form):
 
      password = forms.CharField(
           label="Password", 
+          widget=forms.PasswordInput(),
           max_length=255, 
           strip=True, 
           required=True,
-          widget=forms.PasswordInput(),
      )
 
 
