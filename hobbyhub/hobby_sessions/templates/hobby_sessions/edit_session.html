@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <article>
+        <h2>Edit Session</h2>
+
+        {% include "form.html" with form=edit_session_form form_attributes='enctype="multipart/form-data"' submit_text="Save" %}
+
+        <a href="{% url 'hobbies:hobby_detail' hobby.name %}">
+            <button class="outline" type="submit">Cancel</button>
+        </a>
+    </article>
+{% endblock %}

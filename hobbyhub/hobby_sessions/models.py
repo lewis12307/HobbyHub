@@ -53,7 +53,7 @@ class Session(models.Model):
         blank=True, 
         null=True)   
      
-     friend_visibiilty = models.BooleanField(default=True)
+     friend_visibility = models.BooleanField(default=True)
 
 
 

@@ -47,7 +47,7 @@ class CreateSessionForm(forms.Form):
           } 
      )
 
-     friend_visibiilty = forms.BooleanField(
+     friend_visibility = forms.BooleanField(
           label="Show to friends?", 
           widget=forms.CheckboxInput(), 
           required=False, 
@@ -134,7 +134,7 @@ class CreateSessionForm(forms.Form):
           now = timezone.localtime()
           date = self.cleaned_data.get("date")
           # if provided date is in past, do nothing
-          if date < today:      
+          if date and date < today:      
                pass
           # if provided date is today or in past, check that provided start and end times are not in future, regardless of provided date
           else:                
@@ -166,3 +166,11 @@ class CreateSessionForm(forms.Form):
      
 
      
+
+
+
+
+class EditSessionForm(CreateSessionForm):
+     pass
+
+     # custom validation here if needed 

@@ -1,40 +1,11 @@
 {% extends "base.html" %}
 
 
-{% block main_classes %}container{% endblock %}
-
-
 {% block content %}
     <article>
         <h2>Edit Profile</h2>
 
-        <form method="POST" enctype="multipart/form-data" class="spacious-form">
-            {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
-            {% csrf_token %} 
-
-    
-
-            {{ edit_profile_form.non_field_errors }}
-            {% for field in edit_profile_form %}
-                <div class="form_field">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    {{ field }}
-
-
-                    {% if field.errors %}
-                        {% for error in field.errors %}
-                            <p class="error-message">{{ error }}</p>
-                        {% endfor %}
-                    {% else %}
-                        {% if field.help_text %}
-                            <small class="help-text">{{ field.help_text }}</small>
-                        {% endif %}
-                    {% endif %}
-                </div>
-            {% endfor %}
-                
-            <button type="submit">Save</button>
-        </form>
+        {% include "form.html" with form=edit_profile_form form_attributes='enctype="multipart/form-data"' submit_text="Save" %}
 
         <a href="{% url 'accounts:profile' request.user.username %}">
             <button class="outline" type="submit">Cancel</button>

@@ -157,7 +157,30 @@ class LoginForm(forms.Form):
 
 
 class EditProfileForm(SignUpForm):
-    password = None
-    pass
+     password = None       # user will not be able to edit password in this form
+    
+
+
+     # checks whether the username is already taken or not
+     # not including user's current username
+     def clean_username(self):
+          current_user = getattr(self, "user", None)
+          current_username = current_user.username
+          new_username = self.cleaned_data.get("username")
+
+
+          # if new username is the same as current username, 
+          # do not raise a validation error and return the new username
+          if new_username == current_username:
+               return new_username
+          
+          # othewise, check that the new username is unique 
+          if UserProfile.objects.filter(user__username=new_username).exists():
+               raise forms.ValidationError(
+                    "Oops… That username is already taken. Try to think of a unique one that feels like you.",
+                    code="unique_username"
+               )
+          return new_username
+
 
 

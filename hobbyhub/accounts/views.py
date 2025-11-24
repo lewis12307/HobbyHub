@@ -166,26 +166,6 @@ def logout_view(request):
 
 
 
-def edit_profile_view(request, username):
-     user = request.user
-     profile = user.userprofile
-
-     if request.method == "GET":
-          current_profile_info = {
-               "first_name": user.first_name,
-               "last_name": user.last_name,
-               "username": user.username,
-               "password": user.password,
-               "bio": profile.bio,
-               "profile_picture": profile.profile_picture,
-          }
-          edit_profile_form = EditProfileForm(initial=current_profile_info)
-          return render(request, "accounts/edit_profile.html", {"edit_profile_form": edit_profile_form})
-     
-     # if request.method == "POST":
-     #      pass
-
-
 
 def delete_profile_view(request):
      if request.method == "POST":
@@ -198,3 +178,66 @@ def delete_profile_view(request):
           
           # redirect user back to login page 
           return redirect("accounts:login") 
+     
+
+
+
+def edit_profile_view(request, username):
+     user = request.user
+     current_first_name = user.first_name
+     current_last_name = user.last_name
+     current_username = user.username
+
+     user_profile = user.userprofile
+     current_bio = user_profile.bio
+     current_profile_picture = user_profile.profile_picture
+
+     if request.method == "POST":
+          # create a form instance and fill it with the data the user submitted
+          edit_profile_form = EditProfileForm(request.POST)  
+          edit_profile_form.user = user       # attach the user to the form to help with form validation
+
+          # validate and process form input
+          if edit_profile_form.is_valid():
+               cleaned_input = edit_profile_form.cleaned_data
+               new_first_name = cleaned_input["first_name"]
+               new_last_name = cleaned_input["last_name"]
+               new_username = cleaned_input["username"]
+               new_bio = cleaned_input["bio"]
+               new_profile_picture = cleaned_input["profile_picture"]
+
+
+               if new_first_name != current_first_name:
+                    user.first_name = new_first_name
+               if new_last_name != current_last_name:
+                    user.last_name = new_last_name
+               if new_username != current_username:
+                    user.username = new_username
+                    username = new_username
+               user.save()
+               
+               if new_bio != user_profile.bio:
+                    user_profile.bio = new_bio
+               if new_profile_picture != current_profile_picture:
+                    user_profile.profile_picture = new_profile_picture
+               user_profile.save()
+
+               # redirect user back to their profile page 
+               return redirect("accounts:profile", username=username)  
+
+          # if input is invalid, show the form again with errors
+          return render(request, "accounts/edit_profile.html", {"edit_profile_form": edit_profile_form})
+
+
+
+     else:     # if request method is GET or anything else
+          current_profile_info = {
+               "first_name": user.first_name,
+               "last_name": user.last_name,
+               "username": user.username,
+               "bio": user_profile.bio,
+               "profile_picture": user_profile.profile_picture,
+          }
+          # fill in form with the current info in the user's profile
+          edit_profile_form = EditProfileForm(initial=current_profile_info)
+          return render(request, "accounts/edit_profile.html", {"edit_profile_form": edit_profile_form})

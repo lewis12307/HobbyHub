@@ -16,9 +16,13 @@
           {% endif %}
 
 
-          {# include and show separate dialog to confirm user wants to delete this Session, when they click 'Delete Session' Button below #}
-          {% include "delete_dialog.html" with dialog_id="delete_session" title="Session" message="Are you sure you would like to delete this session? <br> This action cannot be undone." action_url=session.delete_url confirm_text="Yes, delete it." %}
-          <button class="warning_button" type="button" onclick="openDialog('delete_session')">Delete Session</button>
 
+          <div class="horizontal_button_group">
+               <a href="{% url 'hobby_sessions:edit_session' hobby.name session.id %}" role="button">Edit Session</a>
+
+               {# include and show separate dialog to confirm user wants to delete this Session, when they click 'Delete Session' Button below #}
+               {% include "delete_dialog.html" with dialog_id="delete_session" title="Session" message="Are you sure you would like to delete this session? <br> This action cannot be undone." action_url=session.delete_url confirm_text="Yes, delete it." %}
+               <button class="warning_button" type="button" onclick="openDialog('delete_session')">Delete Session</button>
+          </div>
      </article>
 {% endblock %}
