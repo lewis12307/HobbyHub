@@ -3,13 +3,16 @@
 
 {% block content %}
      <h1>{{ hobby.name|title }}</h1>
-     <h2>New Session</h2>
 
-     <form method="POST" enctype="multipart/form-data">
-          {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
-          {% csrf_token %} 
+     <article>
+          <h2>New Session</h2>
 
-          {{ create_session_form }}
-          <button type="submit">Create</button>
-     </form>
-{% endblock %}
+
+          {% include "form.html" with form=create_session_form form_attributes='enctype="multipart/form-data"' submit_text="Create" %}
+     
+          <a href="{% url 'hobbies:hobby_detail' hobby.name %}">
+               <button class="outline" type="submit">Cancel</button>
+          </a>
+     </article>
+  {% endblock %}
+

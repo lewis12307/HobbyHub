@@ -5,26 +5,20 @@
     <meta charset="UTF-8">
     <title>{% block title %}HobbyHub{% endblock %}</title>
     {% load static %}
+    <link rel="stylesheet" href="{% static 'css/pico.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <script src="{% static '/js/dialog.js' %}"></script>
 </head>
 
-<body>
+<body class="{% block body_classes %}{% endblock %}">
     {% block nav %}
         {% include 'nav.html' %}
     {% endblock %}
-    
-    {% block messages %}
-        {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                    <p class="{{ message.tags }}">{{ message }}</p>
-                {% endfor %}
-            </div>
-        {% endif %}
-    {% endblock %}
 
-    {% block content %}
-    {% endblock %}
+    <main class="container {% block main_classes %}{% endblock %}">
+        {% block content %}
+        {% endblock %}
+    </main> 
 </body>
 
 </html>

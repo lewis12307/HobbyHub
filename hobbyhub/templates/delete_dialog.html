@@ -1,17 +1,19 @@
 <dialog id="{{ dialog_id }}" class="dialog">
-     <div class="dialog-content">
-         <h3>Delete {{ title }}?</h3>
-         <p>{{ message }}</p>
- 
-         <form action="{{ action_url }}" method="POST">
-            {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
-             {% csrf_token %}
-             
-             <button type="submit">{{ confirm_text|default:"Delete" }}</button>
-         </form>
- 
-         <button type="button" onclick="closeDialog('{{ dialog_id }}')">
-             {{ cancel_text|default:"Cancel" }}
-         </button>
-     </div>
+    <article class="dialog-content">
+            <h3>Delete {{ title }}?</h3>
+            <p>{{ message }}</p>
+    
+            <div class="horizontal_button_group">
+                    <form action="{{ action_url }}" method="POST">
+                        {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                        {% csrf_token %}
+                        
+                        <button class="warning_button" type="submit">{{ confirm_text|default:"Delete" }}</button>
+                    </form>
+            
+                    <button class="outline" type="button" onclick="closeDialog('{{ dialog_id }}')">
+                        {{ cancel_text|default:"Cancel" }}
+                    </button>
+            </div>
+    </article>
 </dialog>

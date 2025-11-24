@@ -11,23 +11,18 @@ from django.urls import reverse
 
 
 
+
 def create_hobby_view(request):
-     if request.method == "GET":
-          # create empty form for user to fill in to create a new Hobby
-          form = CreateHobbyForm()
-          return render(request, "hobbies/create_hobby.html", {"form": form})    
-
-
      if request.method == "POST":
           # fill form with the user input from the request
-          form = CreateHobbyForm(request.POST)
-          form.user = request.user
-          form.user_profile = request.user.userprofile
+          create_hobby_form = CreateHobbyForm(request.POST)
+          create_hobby_form.user = request.user
+          create_hobby_form.user_profile = request.user.userprofile
           user_profile = request.user.userprofile
 
           # validate and process form input
-          if form.is_valid():
-               cleaned_input = form.cleaned_data
+          if create_hobby_form.is_valid():
+               cleaned_input = create_hobby_form.cleaned_data
                name = cleaned_input['name'].lower()
                
                # create a New Hobby instance
@@ -40,26 +35,55 @@ def create_hobby_view(request):
 
                 # redirect to page showing details for the new Hobby
                return redirect("hobbies:hobby_detail", name=hobby.name)
+          
           # if input is invalid, show the form again with errors
-          return render(request, "hobbies/create_hobby.html", {"form": form})
+          return render(request, "hobbies/create_hobby.html", {
+               "create_hobby_form": create_hobby_form
+          })
      
+     else:          # if method is GET or anything else
+          # create empty form for user to fill in to create a new Hobby
+          create_hobby_form = CreateHobbyForm()
+          return render(request, "hobbies/create_hobby.html", {
+               "create_hobby_form": create_hobby_form
+          })    
+
+
+     
+
 
 
 
 def hobby_detail_view(request, name):
      if request.method == "GET":
-          hobby = get_object_or_404(Hobby, name=name, user_profile=request.user.userprofile)     # retrieve the Hobby object 
-          delete_url = reverse("hobbies:delete_hobby", args=[hobby.name])   # build the url to delete the specific Hobby
+          user_profile = request.user.userprofile
+
+          hobbies = user_profile.hobbies.annotate(
+               session_count=Count("sessions"),
+          )
+          hobby = hobbies.get(name=name)
+          delete_hobby_url = reverse("hobbies:delete_hobby", args=[hobby.name])   # build the url to delete the specific Hobby
+          
 
           sessions = hobby.sessions.all()
           sorted_sessions = sessions.order_by("-date", "-end_time")    # sort sessions by date, time in descending order (newest to oldest)
+          for session in sorted_sessions:
+               session.delete_url = reverse("hobby_sessions:delete_session", args=[hobby.name, session.id])
+
+     
+          # delete_session_url = reverse("sessions:delete_session", args=[hobby.name])   # build the url to delete the specific session
+
 
           # show page with info for single specific Hobby 
           return render(request, "hobbies/hobby_detail.html", {
                "hobby": hobby,
-               "delete_url": delete_url,
+               "delete_hobby_url": delete_hobby_url,
                "sessions": sorted_sessions,
           })
+     
+     return redirect("hobbies:hobby_detail", name=name)
+     
+
 
 
 
@@ -88,6 +112,7 @@ def hobbies_view(request):
      user = request.user             # get the User that issued the request
      user_profile = user.userprofile     # get the UserProfile associated with the User
      
+
      # add two annotations to each Hobby in this queryset:
      #   session_count, the number of sessions associated with this hobby
      #   total_time, the sum of all session durations (total time spent on this hobby)
@@ -113,6 +138,7 @@ def hobbies_view(request):
                "hobbies": hobbies,
                "sort_form": sort_form,
           })
+     
      if request.method == "POST":
           # fill form with the user input from the request
           sort_form = SortHobbiesForm(request.POST)

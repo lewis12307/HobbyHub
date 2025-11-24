@@ -25,12 +25,13 @@ from django.conf.urls.static import static
 
 
 urlpatterns = [
-    path("", lambda request: redirect("accounts:login")),    # redirect to login page 
-    path("accounts/", include("accounts.urls")),  
-    path("dashboard/", dashboard_view, name="dashboard"),     
-    path("hobbies/", include("hobbies.urls")),
-    path("", include("hobby_sessions.urls")),
-    path("admin/", admin.site.urls),
+    path("", lambda request: redirect("/hobbyhub/")),   # root redirect
+    path("hobbyhub/", lambda request: redirect("accounts:login")),    # redirect to login page 
+    path("hobbyhub/", include("accounts.urls")),  
+    path("hobbyhub/dashboard", dashboard_view, name="dashboard"),     
+    path("hobbyhub/hobbies/", include("hobbies.urls")),
+    path("hobbyhub/", include("hobby_sessions.urls")),
+    path("hobbyhub/admin/", admin.site.urls),
 ]
 
 

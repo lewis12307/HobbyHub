@@ -1,31 +1,44 @@
 {% extends "base.html" %}
 
+
+
 {% block content %}
-     {# show profile picture, only if user provided one #}
-     {% if profile.profile_picture %}
-          <img src="{{ profile.profile_picture.url }}" alt="{{ user.get_username }}'s Profile Picture">
-     {% endif %}
+     <article>
+          <div class="profile_header">
+               {% if profile.profile_picture %}
+                    <img class="profile_picture" src="{{ profile.profile_picture.url }}" alt="{{ user.get_username }}'s Profile Picture">
+               {% else %}
+                    <img class="profile_picture" src="../../../static/images/default_profile_picture.jpg" alt="Default Profile Picture">
+               {% endif %}
+               
+     
+               <div class="profile_header_text">
+                    <h1 class="profile_name">
+                         {{ user.first_name }} 
+                         {% if user.last_name %}
+                              {{ user.last_name }}
+                         {% endif %}
+                    </h1>
+                    <h2 class="profile_username">@{{ user.get_username }}</h2>
+               </div>
+          </div>
+          <div class="bio">
+               {% if profile.bio %}
+                    <blockquote>
+                         {{ profile.bio }}
+                    </blockquote>
+               {% endif %}
+          </div>
 
-     <h1>{{ user.get_username }}</h1>
-     <h2>{{ user.get_short_name }}</h2>
-     <h2>Bio</h3>
-     <p>{{ profile.bio }}</p>
 
 
-     <h2>{{ user.get_short_name }}'s Hobbies</h3>
-     {% include "hobbies/hobbies_list.html" %}
+          <div class="horizontal_button_group">
+               <a href="{% url 'accounts:edit' request.user.username %}" role="button">Edit Profile</a>
 
-
-
-     <form action="{% url 'accounts:logout' %}" method="POST">
-          {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
-          {% csrf_token %} 
-          <button type="submit">Logout</button>
-     </form>
-
-
-     {# include and show separate dialog to confirm user wants to delete their profile when they click 'Delete Profile' Button below #}
-     {% include "delete_dialog.html" with dialog_id="delete_account" title="Your Account" message="Are you sure you would like to delete your account? This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it" %}
-     <button type="button" onclick="openDialog('delete_account')">Delete Profile</button>
+               {# include and show separate dialog to confirm user wants to delete their profile when they click 'Delete Profile' Button below #}
+               {% include "delete_dialog.html" with dialog_id="delete_profile" title="Your Account" message="Are you sure you would like to delete your profile? <br> This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it." %}
+               <button class="warning_button" type="button" onclick="openDialog('delete_profile')">Delete Profile</button>
+          </div>
+</article>
 {% endblock %}
 

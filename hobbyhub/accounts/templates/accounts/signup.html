@@ -4,14 +4,18 @@
 {% block nav %}
 {% endblock %}
 
+
+{% block body_classes %}center background_image{% endblock %}
+
+
 {% block content %}
-    <h2>Sign Up</h2>
+    <article>
+        <h2>Sign Up</h2>
 
-    <form method="POST" enctype="multipart/form-data">
-        {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
-        {% csrf_token %} 
+        {% include "form.html" with form=signup_form form_attributes='enctype="multipart/form-data"' submit_text="Sign Up" %}
 
-        {{ signup_form }}
-        <button type="submit">Sign Up</button>
-    </form>
+        <a href="{% url 'accounts:login' %}">
+            <button class="outline" type="submit">Cancel</button>
+        </a>
+    </article>
 {% endblock %}

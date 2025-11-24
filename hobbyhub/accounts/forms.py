@@ -1,10 +1,10 @@
+from accounts.models import UserProfile
+
+
 from django import forms
-from django.contrib.auth.models import User
 
 from django.core.validators import RegexValidator, MinLengthValidator, validate_image_file_extension
 from accounts.validators import username_validator
-# from django.contrib.auth.password_validation import validate_password
-
 
 
 
@@ -12,7 +12,10 @@ from accounts.validators import username_validator
 
 class SignUpForm(forms.Form):
      first_name = forms.CharField(
-          label="First Name", 
+          label="First Name *", 
+          widget=forms.TextInput(attrs={
+               "autocomplete": "off",
+          }),
           help_text="Please enter your first name, using only letters and hyphens.", 
           max_length=255, 
           strip=True, 
@@ -26,6 +29,9 @@ class SignUpForm(forms.Form):
 
      last_name = forms.CharField(
           label="Last Name", 
+          widget=forms.TextInput(attrs={
+               "autocomplete": "off",
+          }),
           help_text="Please enter your last name, using only letters and hyphens.", 
           max_length=255, 
           strip=True, 
@@ -39,7 +45,10 @@ class SignUpForm(forms.Form):
      )
      
      username = forms.CharField(
-          label="Username", 
+          label="Username *", 
+          widget=forms.TextInput(attrs={
+               "autocomplete": "off",
+          }),
           help_text="Please enter a username, using only letters, numbers, underscores (_), and hyphens (-).", 
           max_length=150, 
           strip=True, 
@@ -50,9 +59,11 @@ class SignUpForm(forms.Form):
      
 
      password = forms.CharField(
-          label="Password", 
+          label="Password *", 
+          widget=forms.PasswordInput(attrs={
+               "autocomplete": "new-password",
+          }),
           help_text="Please enter a strong password and make sure it is at least 8 characters long.", 
-          widget=forms.PasswordInput(),
           max_length=255, 
           strip=True, 
           required=True, 
@@ -65,20 +76,22 @@ class SignUpForm(forms.Form):
 
      bio = forms.CharField(
           label="Bio", 
+          widget=forms.Textarea(attrs={"rows": 3}),
+          help_text="Write a short bio to share a little about yourself.", 
           required=False, 
           empty_value=None,
-          widget=forms.Textarea(attrs={"rows": 3}),
      )
      
 
      profile_picture = forms.ImageField(
           label="Profile Picture", 
           widget=forms.FileInput(),
+          help_text="Upload a little picture to display on your profile.", 
           required=False,
           validators=[validate_image_file_extension],
           error_messages={     # override default error messages to be friendlier
                "invalid_extension": "Hmm… that file doesn’t seem to be an image. Please upload a JPG or PNG.",
-               "invalid_image": "Hmm… that file doesn’t look like an image I can read. Please upload a different file.",
+               "invalid_image": "Hmm… that file doesn’t seem to be an image. Please upload a JPG or PNG.",
           }
      )
 
@@ -87,9 +100,9 @@ class SignUpForm(forms.Form):
      # checks whether the username is already taken or not
      def clean_username(self):
           username = self.cleaned_data.get("username")
-          if User.objects.filter(username=username).exists():
+          if UserProfile.objects.filter(user__username=username).exists():
                raise forms.ValidationError(
-                    "Oops… That username is already taken.",
+                    "Oops… That username is already taken. Try to think of a unique one that feels like you.",
                     code="unique_username"
                )
           return username
@@ -106,6 +119,9 @@ class SignUpForm(forms.Form):
 class LoginForm(forms.Form):
      username = forms.CharField(
           label="Username",  
+          widget=forms.TextInput(attrs={
+               "autocomplete": "off",
+          }),
           max_length=150, 
           strip=True, 
           required=True,
@@ -113,7 +129,9 @@ class LoginForm(forms.Form):
 
      password = forms.CharField(
           label="Password", 
-          widget=forms.PasswordInput(),
+          widget=forms.PasswordInput(attrs={
+               "autocomplete": "new-password",
+          }),
           max_length=255, 
           strip=True, 
           required=True,
@@ -125,11 +143,21 @@ class LoginForm(forms.Form):
      # if not, notify user
      def clean_username(self):
           username = self.cleaned_data.get("username")
-          if not User.objects.filter(username=username).exists():
+          if not UserProfile.objects.filter(user__username=username).exists():
                raise forms.ValidationError(
                     "Hmm… We couldn’t find anyone with that username. Want to try again?"
                )
           return username
 
+
+
+
+
+
+
+
+class EditProfileForm(SignUpForm):
+    password = None
+    pass
 
 

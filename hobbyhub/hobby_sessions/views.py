@@ -17,16 +17,6 @@ def create_session_view(request, hobby_name):
      user_profile = user.userprofile
      hobby = get_object_or_404(Hobby, name=hobby_name, user_profile=user_profile)
 
-     if request.method == "GET":
-          # create empty form for user to fill in to create a session for a specific Hobby 
-          create_session_form = CreateSessionForm()
-
-          # show page listing all of user's hobbies, with ability to sort 
-          return render(request, "hobby_sessions/create_session.html", {
-               "hobby": hobby, 
-               "create_session_form": create_session_form,
-          })
-     
      if request.method == "POST":
            # fill form with the user input from the request
           create_session_form = CreateSessionForm(request.POST, request.FILES)
@@ -61,5 +51,38 @@ def create_session_view(request, hobby_name):
                return redirect("hobbies:hobby_detail", name=hobby.name)
 
           # if input is not valid, show form again with errors
-          return render(request, "hobby_sessions/create_session.html", {"create_session_form": create_session_form})
+          return render(request, "hobby_sessions/create_session.html", {
+               "hobby": hobby, 
+               "create_session_form": create_session_form,
+          })
+     
+     else:        # f method is GET or anything else
+          # create empty form for user to fill in to create a session for a specific Hobby 
+          create_session_form = CreateSessionForm()
 
+          # show page listing all of user's hobbies, with ability to sort 
+          return render(request, "hobby_sessions/create_session.html", {
+               "hobby": hobby, 
+               "create_session_form": create_session_form,
+          })
+     
+
+
+
+
+def delete_session_view(request, hobby_name, session_id):
+     user = request.user
+     user_profile = user.userprofile
+
+     session = get_object_or_404(
+          Session,
+          id=session_id,
+          hobby__name=hobby_name,
+          hobby__user_profile=user_profile
+     )
+     
+     if request.method == "POST":
+          # delete the Session from the database
+          session.delete()
+
+          return redirect("hobbies:hobby_detail", name=hobby_name)

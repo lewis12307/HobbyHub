@@ -59,13 +59,12 @@ class Session(models.Model):
 
     
      class Meta:
-        constraints = [
-            
-             # enforce at the database level that at least either description or upload must be provided
-            models.CheckConstraint(
-               name="require_description_or_upload",
-               check=(
-                    Q(description__isnull=False) | Q(upload__isnull=False)
-               ),
-            )
-        ]
+          constraints = [
+               # enforce at the database level that at least either description or upload must be provided
+               models.CheckConstraint(
+                    name="require_description_or_upload",
+                    check=(
+                         Q(description__isnull=False) | Q(upload__isnull=False)
+                    ),
+               )
+          ]

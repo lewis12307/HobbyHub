@@ -1,0 +1,35 @@
+<form method="POST" {{ form_attributes }}>
+     {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+     {% csrf_token %} 
+
+
+
+     {% if form.non_field_errors %}
+          <div class="errors_div">
+               {% for error in form.non_field_errors %}
+                    <p class="error-message">{{ error }}</p>
+               {% endfor %}
+          </div>
+     {% endif %}
+
+     {% for field in form %}
+         <div class="form_field">
+               {{ field.label_tag }}
+               {{ field }}
+
+               <div class="errors_div">
+                    {% if field.errors %}
+                         {% for error in field.errors %}
+                              <p class="error-message">{{ error }}</p>
+                         {% endfor %}
+                    {% else %}
+                         {% if field.help_text %}
+                              <small class="help-text">{{ field.help_text }}</small>
+                         {% endif %}
+                    {% endif %}
+               </div>
+         </div>
+     {% endfor %}
+         
+     <button type="submit">{{ submit_text|default:"Submit" }}</button>
+ </form>

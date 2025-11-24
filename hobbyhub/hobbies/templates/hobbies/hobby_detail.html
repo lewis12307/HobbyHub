@@ -3,16 +3,29 @@
 
 {% block content %}
     <h1>{{ hobby.name|title }}</h1>
-    <h3>Number of Sessions: {{ hobby.session_count }}</h3>
-    <h3>Time Spent on This Hobby: {{ hobby.total_time_spent }}</h3>
 
-     <a href="{% url 'hobby_sessions:create_session' hobby.name %}">Add Session</a>
-
-     {# include and show separate dialog to confirm user wants to delete this Hobby, when they click 'Delete Hobby' Button below #}
-     {% include "delete_dialog.html" with dialog_id="delete_hobby" title=hobby_name message="Are you sure you would like to delete this hobby? This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it" %}
-     <button type="button" onclick="openDialog('delete_hobby')">Delete Hobby</button>
+    {# include and show separate dialog to confirm user wants to delete this Hobby, when they click 'Delete Hobby' Button below #}
+     {% include "delete_dialog.html" with dialog_id="delete_hobby" title=hobby_name message="Are you sure you would like to delete this hobby? <br> This action cannot be undone." action_url=delete_hobby_url confirm_text="Yes, delete it." %}
+     <button class="warning_button" type="button" onclick="openDialog('delete_hobby')">Delete Hobby</button>
 
 
-     {% include 'hobby_sessions/sessions_list.html' %}
+    <article>
+        <p>Time Spent on This Hobby: {{ hobby.total_time_spent }}</p>
+        <p>Number of Sessions: 
+            {% if hobby.session_count %}
+                {{ hobby.session_count }}
+            {% else %}
+                0
+            {% endif %}
+        </p>
+    </article>
+
+    <article>
+
+   
+    <h2>Sessions</h2>
+        {% include 'hobby_sessions/sessions_list.html' %}
+        <a href="{% url 'hobby_sessions:create_session' hobby.name %}" role="button">Add Session</a>
+    </article>
 {% endblock %}
  

@@ -1,5 +1,24 @@
-<div>
-     <a href="{% url 'dashboard' %}">Dashboard</a>
-     <a href="{% url 'hobbies:hobbies' %}">Your Hobbies</a>
-     <a href="{% url 'accounts:profile' request.user.username %}">Profile</a>
-</div>
+<nav class="container">
+     <ul>
+          <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+          <li><a href="{% url 'hobbies:hobbies' %}">Hobbies</a></li>
+          <li><a href="">Friends</a></li>
+     </ul>
+     <ul>
+          <li>
+               <a href="{% url 'accounts:profile' request.user.username %}">Profile</a>
+          </li>
+          <li>     
+               <a href="#" onclick="document.getElementById('logout-form').submit()"
+                    role="button" 
+               >
+                    Logout
+               </a>
+            
+               <form id="logout-form" action="{% url 'accounts:logout' %}" method="POST" style="display: none;">
+                    {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                    {% csrf_token %} 
+               </form>
+          </li>              
+     </ul>
+</nav>

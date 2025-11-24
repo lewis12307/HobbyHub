@@ -4,11 +4,10 @@
 {% block content %}
     <h1>New Hobby</h1>
 
-    <form method="POST">
-        <!-- generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks -->
-        {% csrf_token %} 
 
-        {{ form }}
-        <button type="submit">Create</button>
-    </form>
+    {% include "form.html" with form=create_hobby_form submit_text="Create" %}
+
+    <a href="{% url 'hobbies:hobbies' %}">
+        <button class="outline" type="submit">Cancel</button>
+    </a>
 {% endblock %}

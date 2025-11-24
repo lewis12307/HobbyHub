@@ -12,7 +12,10 @@ class UserProfile(models.Model):
 
     # Django's User model already includes: username, password, email, first_name, last_name, is_active, last_login, and date_joined.
     # Additional custom fields that do NOT exist on Django's User model
-    bio = models.TextField()
+    bio = models.TextField(
+        blank=True,       # optional
+        null=True
+    )
     # image for the user's profile 
     profile_picture = models.ImageField(
         upload_to='profile_pictures/',     # if provided, saved to media/profile_pictures/

@@ -1,10 +1,10 @@
 {% block hobby_list %}
-     <ul>
-          {% for hobby in hobbies %}
-               <li><a href="{% url 'hobbies:hobby_detail' hobby.name %}">{{ hobby.name }}</a></li>
-          {% empty %}
-               <li>You haven't added any hobbies yet.</li>
-          {% endfor %}
-     </ul>
+     {% for hobby in hobbies %}
+          <div>
+               <a href="{% url 'hobbies:hobby_detail' hobby.name %}">{{ hobby.name|title }}</a>
+          </div>
+     {% empty %}
+          <p>You haven't added any hobbies yet.</p>
+     {% endfor %}
 {% endblock %}
 

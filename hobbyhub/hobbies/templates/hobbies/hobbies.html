@@ -2,18 +2,22 @@
 
 
 {% block content %}
-     <h1>Hobbies</h1>
+     <article>
+          <a href="{% url 'hobbies:create_hobby' %}" role="button">Create Hobby</a>
+     </article>
 
-     <a href="{% url 'hobbies:create_hobby' %}">Create Hobby</a>
 
+     <article>
+          <div>
+               <form action="" method="POST">    
+                    {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                    {% csrf_token %} 
+                    
+                    {{ sort_form }}
+               </form>
+          </div>
+
+          {% include 'hobbies/hobbies_list.html' %}
+     </article>
      
-     <form action="" method="POST">    
-          {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
-          {% csrf_token %} 
-          
-          {{ sort_form }}
-     </form>
-
-     {% include 'hobbies/hobbies_list.html' %}
-
 {% endblock %}
