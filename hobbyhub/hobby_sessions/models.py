@@ -15,6 +15,7 @@ class Session(models.Model):
      user_profile = models.ForeignKey(
           UserProfile, 
           on_delete=models.CASCADE,    # if the UserProfile is deleted, automatically delete all Sessions that belong to it
+          related_name='sessions',     # enables reverse lookup: user_profile.sessions returns all sessions for given UserProfile object
      )
 
      hobby = models.ForeignKey(

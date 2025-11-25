@@ -28,9 +28,10 @@ urlpatterns = [
     path("", lambda request: redirect("/hobbyhub/")),   # root redirect
     path("hobbyhub/", lambda request: redirect("accounts:login")),    # redirect to login page 
     path("hobbyhub/", include("accounts.urls")),  
-    path("hobbyhub/dashboard", dashboard_view, name="dashboard"),     
+    path("hobbyhub/dashboard/", dashboard_view, name="dashboard"),     
     path("hobbyhub/hobbies/", include("hobbies.urls")),
     path("hobbyhub/", include("hobby_sessions.urls")),
+    path("hobbyhub/friends/", include("friends.urls")),
     path("hobbyhub/admin/", admin.site.urls),
 ]
 

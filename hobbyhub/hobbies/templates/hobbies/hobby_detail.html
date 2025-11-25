@@ -5,8 +5,8 @@
     <h1>{{ hobby.name|title }}</h1>
 
     {# include and show separate dialog to confirm user wants to delete this Hobby, when they click 'Delete Hobby' Button below #}
-     {% include "delete_dialog.html" with dialog_id="delete_hobby" title=hobby_name message="Are you sure you would like to delete this hobby? <br> This action cannot be undone." action_url=delete_hobby_url confirm_text="Yes, delete it." %}
-     <button class="warning_button" type="button" onclick="openDialog('delete_hobby')">Delete Hobby</button>
+    {% include "delete_dialog.html" with dialog_id="delete_hobby" title=hobby_name message="Are you sure you would like to delete this hobby? <br> This action cannot be undone." action_url=delete_hobby_url confirm_text="Yes, delete it." %}
+    <button class="warning_button" type="button" onclick="openDialog('delete_hobby')">Delete Hobby</button>
 
 
     <article>

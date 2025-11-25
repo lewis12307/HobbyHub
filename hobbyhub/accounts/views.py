@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from accounts.models import UserProfile
+from friends.models import get_friend_status
 
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, LoginForm, EditProfileForm
@@ -133,26 +134,43 @@ def login_view(request):
 
 
 
+
 def profile_view(request, username):
      if request.method == "GET":
-          if request.user.is_authenticated:   # check if user is logged in currently
-               #user = request.user
+
+          # check if user is logged in currently
+          # only let logged-in users view profiles
+          if request.user.is_authenticated: 
                user = User.objects.get(username=username)
-               user_profile = user.userprofile     # access the UserProfile linked to the User
-               hobbies = user_profile.hobbies.all()    # get all Hobbies for that UserProfile
+               user_profile = user.userprofile        # access the UserProfile linked to the User
+
+               viewer = request.user
+               viewer_profile = viewer.userprofile
+
+               # if the viewer is not the user, check what their friend status is 
+               if viewer != user:
+                    friend_status = get_friend_status(user_profile, viewer_profile)
+               else: 
+                    friend_status = None
+
+               sessions = user_profile.sessions.all()    # get all Sessions associated with that UserProfile
+               visible_sessions = sessions.filter(friend_visibility=True)
+               sorted_sessions = visible_sessions.order_by("-date", "-end_time")    # sort sessions by date, time in descending order (newest to oldest)
 
                delete_url = reverse("accounts:delete")
+               old_search = request.GET.get("q", "")
                return render(request, "accounts/profile.html", {
                     "user": user,
                     "profile": user_profile,
                     "delete_url": delete_url,
-                    "hobbies": hobbies
+                    "viewer": viewer,
+                    "friend_status": friend_status,
+                    "sessions": sorted_sessions,
+                    "old_search": old_search,
                })          
           # if user is not logged in, redirect them to login page
           else:
                return redirect('accounts:login') 
-          
-          # if request.user.username != username:
 
 
 
@@ -216,7 +234,7 @@ def edit_profile_view(request, username):
                     username = new_username
                user.save()
                
-               if new_bio != user_profile.bio:
+               if new_bio != current_bio:
                     user_profile.bio = new_bio
                if new_profile_picture != current_profile_picture:
                     user_profile.profile_picture = new_profile_picture

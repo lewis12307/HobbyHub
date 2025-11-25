@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+     <article>
+          <h3>Who would you like to add as a friend?</h3>
+          <p>Start typing a username to look up someone you’d like to friend.</p>
+          
+          <form method="GET" action="{% url 'friends:search_friend' %}" role="search">
+               <input type="search" name="q" value="{{ search_term }}">
+               <button type="submit">Search</button>
+          </form>
+          
+          <div>
+               {% if search_term %}
+                    {% for user_profile in results %}
+                         {% include 'friends/friend_preview.html' with user_profile=user_profile action="search_friend" search_term=search_term pending_friends_ids=pending_friends_ids %}
+                    {% empty %}
+                         <p>Hmm... We couldn't find any users with that username.</p>
+                    {% endfor %}
+               {% endif %}
+          </div>
+
+          <a href="{% url 'friends:friends' %}">
+               <button class="outline extra_top_margin" type="submit">Cancel</button>
+          </a>
+     </article>
+{% endblock %}

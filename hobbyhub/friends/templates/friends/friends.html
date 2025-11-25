@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+     <article>
+          <a href="{% url 'friends:add_friend' %}" role="button">Add Friend</a>
+     </article>
+
+     <article>
+          <h2>Friend Requests</h2>
+          {% for pending_request in pending_friend_requests %}
+               {% include 'friends/friend_preview.html' with friend_request=pending_request user_profile=pending_request.sender action="respond_friend_request" %}
+          {% empty %}
+               <p>You do not have any friend requests right now ... but just wait :)</p>
+          {% endfor %}
+     </article>
+
+     <article>
+          <h2>My Friends</h2>
+          {% for friend in current_friends %}
+               {% include 'friends/friend_preview.html' with user_profile=friend action="remove_friend" %}
+          {% empty %}
+               <p>You do not have any friends yet ... but just wait :)</p>
+          {% endfor %}
+     </article>
+
+{% endblock %}

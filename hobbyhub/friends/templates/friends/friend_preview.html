@@ -1,0 +1,66 @@
+{% load static %}
+
+
+
+<article class="profile_preview inline wrap">
+     <a href="{% url 'accounts:profile' user_profile.user.username %}{% if action == 'search_friend' %}?q={{ search_term }}{% endif %}" 
+               class="clickable_area">
+          <div class="inline">
+               {% if user_profile.profile_picture %}
+                    <img class="profile_picture" src="{{ user_profile.profile_picture.url }}" alt="{{ user_profile.user.get_username }}'s Profile Picture">
+               {% else %}
+                    <img class="profile_picture" src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture">
+               {% endif %}
+
+               <div>
+                    <h1 class="profile_name">
+                         {{ user_profile.user.first_name }} 
+                         {% if user_profile.user.last_name %}
+                              {{ user_profile.user.last_name }}
+                         {% endif %}
+                    </h1>
+                    <h2 class="profile_username">@{{ user_profile.user.get_username }}</h2>
+               </div>
+          </div>
+     </a>
+
+     <div>
+     {% if action == "search_friend" %}
+          {% if user_profile.id in pending_friends_ids %}
+               <button disabled>Pending</button>
+          {% else %}
+               <form method="POST" action="{% url 'friends:add_friend' %}">
+                    {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                    {% csrf_token %} 
+
+                    <input type="hidden" name="friend_username" value="{{ user_profile.user.username }}">
+
+
+                    <button type="submit" class="no_margin_after">Add Friend</button>
+               </form>
+          {% endif %}
+     {% endif %}
+     {% if action == "respond_friend_request" %}
+          <form method="POST" action="{% url 'friends:respond_friend_request' %}">
+               {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+               {% csrf_token %} 
+
+               <input type="hidden" name="friend_request_id" value="{{ friend_request.id }}">
+               <input type="hidden" name="friend_username" value="{{ user_profile.user.username }}">
+               <div class="horizontal_button_group">
+                    <button type="submit" name="friend_request_response" value="decline" class="warning_button">Decline</button>
+                    <button type="submit" name="friend_request_response" value="accept">Accept</button>
+               </div>
+          </form>
+     {% endif %}
+     {% if action == "remove_friend" %}
+          <form method="POST" action="{% url 'friends:remove_friend' %}">
+               {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+               {% csrf_token %} 
+
+               <input type="hidden" name="friend_username" value="{{ user_profile.user.username }}">
+               <button type="submit" class="no_margin_after warning_button">Remove Friend</button>
+          </form>
+     {% endif %}
+     </div>
+</article>

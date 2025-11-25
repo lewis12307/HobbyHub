@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 
 
 
@@ -8,11 +9,11 @@
                {% if profile.profile_picture %}
                     <img class="profile_picture" src="{{ profile.profile_picture.url }}" alt="{{ user.get_username }}'s Profile Picture">
                {% else %}
-                    <img class="profile_picture" src="../../../static/images/default_profile_picture.jpg" alt="Default Profile Picture">
+                    <img class="profile_picture" src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture">
                {% endif %}
                
      
-               <div class="profile_header_text">
+               <div class="stack">
                     <h1 class="profile_name">
                          {{ user.first_name }} 
                          {% if user.last_name %}
@@ -31,14 +32,48 @@
           </div>
 
 
+          {% if viewer == user %}
+               <div class="horizontal_button_group">
+                    <a href="{% url 'accounts:edit' user.get_username %}" role="button">Edit Profile</a>
 
-          <div class="horizontal_button_group">
-               <a href="{% url 'accounts:edit' request.user.username %}" role="button">Edit Profile</a>
+                    {# include and show separate dialog to confirm user wants to delete their profile when they click 'Delete Profile' Button below #}
+                    {% include "delete_dialog.html" with dialog_id="delete_profile" title="Your Account" message="Are you sure you would like to delete your profile? <br> This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it." %}
+                    <button class="warning_button" type="button" onclick="openDialog('delete_profile')">Delete Profile</button>
+               </div>
+          {% else %}
+               {% if friend_status == None %}
+               <div class="horizontal_button_group">
+                    <button>Add Friend</button>
+                    <a href="{% url 'friends:search_friend'%}?q={{ old_search }}">
+                         <button class="outline extra_top_margin" type="button">Cancel</button>
+                    </a>
+               </div>
+               {% elif friend_status == "pending" %}
+                    <div class="horizontal_button_group">
+                              <button disabled>Pending</button>
+                              <a href="{% url 'friends:search_friend'%}?q={{ old_search }}">
+                                   <button class="outline extra_top_margin" type=button">Ok</button>
+                              </a>
+                    </div>
+               {% elif friend_status == "accepted" %}
+                    <form method="POST" action="{% url 'friends:remove_friend' %}">
+                         {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                         {% csrf_token %} 
+          
+                         <input type="hidden" name="friend_username" value="{{ user.get_username }}">
+                         <button type="submit" class="no_margin_after warning_button">Remove Friend</button>
+                    </form>
+                    </article>
+                    <article>
+                         {% include 'hobby_sessions/sessions_list.html' with sessions=sessions %}
 
-               {# include and show separate dialog to confirm user wants to delete their profile when they click 'Delete Profile' Button below #}
-               {% include "delete_dialog.html" with dialog_id="delete_profile" title="Your Account" message="Are you sure you would like to delete your profile? <br> This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it." %}
-               <button class="warning_button" type="button" onclick="openDialog('delete_profile')">Delete Profile</button>
-          </div>
+                    </article>
+
+
+               {% elif friend_status == "declined" %}
+                    
+               {% endif %}
+          {% endif %}
 </article>
 {% endblock %}
 

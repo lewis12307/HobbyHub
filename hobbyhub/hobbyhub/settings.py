@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'accounts',
     'hobbies',
     'hobby_sessions',
+    'friends'
 ]
 
 MIDDLEWARE = [

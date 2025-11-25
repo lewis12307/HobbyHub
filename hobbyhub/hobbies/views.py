@@ -65,15 +65,12 @@ def hobby_detail_view(request, name):
           delete_hobby_url = reverse("hobbies:delete_hobby", args=[hobby.name])   # build the url to delete the specific Hobby
           
 
-          sessions = hobby.sessions.all()
+          sessions = hobby.sessions.all()    # get all sessions associated with hobby
           sorted_sessions = sessions.order_by("-date", "-end_time")    # sort sessions by date, time in descending order (newest to oldest)
           for session in sorted_sessions:
                session.delete_url = reverse("hobby_sessions:delete_session", args=[hobby.name, session.id])
 
      
-          # delete_session_url = reverse("sessions:delete_session", args=[hobby.name])   # build the url to delete the specific session
-
-
           # show page with info for single specific Hobby 
           return render(request, "hobbies/hobby_detail.html", {
                "hobby": hobby,
