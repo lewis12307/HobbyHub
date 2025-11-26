@@ -1,7 +1,7 @@
 .sidebar{
-    background-color: aquamarine;
+    background-color: #C4A484;
     width: 150px;
-    height: 900px;
+    height: 1000px;
     display: inline-block;
 }
 
@@ -11,8 +11,15 @@
 }
 
 .side_section{
-    width: calc(100% - 155px);
+    width: calc(100% - 150px);
     float: right;
-    padding: 20px;
     box-sizing: border-box;
+    color: white;
+    text-align: center;
+}
+
+.corkboard{
+    background-image: url("/Images/wood-board-background.jpg");
+    background-position: center;
+    background-size: cover;
 }

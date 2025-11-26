@@ -7,8 +7,7 @@ from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.shortcuts import redirect
 
-
-
+import random
 
 
 
@@ -159,3 +158,5 @@ def edit_session_view(request, hobby_name, session_id):
                "edit_session_form": edit_session_form,
                "hobby": hobby,
           })
+     
+

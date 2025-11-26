@@ -1,18 +1,25 @@
 {% block session %}
-     <article>
+     <article class="session shadow">
           {# show session picture, only if user provided one #}
+          
+          {% load static %}
+          
+
+
+          <img src="{% static 'images/tack-darkblue.png'%}" class="tack" alt="">
+
           {% if session.upload %}
-               <img src="{{ session.upload.url }}">
+               <img src="{{ session.upload.url }}" class="session_img">
           {% endif %}
 
           <div> 
-               <h4>Date: {{ session.date }}</h4>
-               <h4>Duration: {{ session.duration }}</h4>
+               <h4 class="handwritten">Date: {{ session.date }}</h4>
+               <h4 class="handwritten">Duration: {{ session.duration }}</h4>
           </div>
 
           {# show session description, only if user provided one #}
           {% if session.description %}
-               <p>Description: {{ session.description }}</p>
+               <p class="handwritten-small">Description: {{ session.description }}</p>
           {% endif %}
 
 

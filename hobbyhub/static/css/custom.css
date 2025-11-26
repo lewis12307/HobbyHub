@@ -83,7 +83,60 @@ form .form_field {
 }
 
 
+.session{
+     background-color: rgb(255, 249, 238);
+     margin: auto;
+     color: black;
+     transform: rotate(5deg);
+     margin-top: 120px;
+     width: 600px;
+     
+}
 
+.session h4 {
+     color: rgb(80, 80, 80);
+     font-family: "Patrick Hand", cursive;
+     text-align: center;
+     font-size: 45px;
+     font-weight: 600;
+}
+
+.session p{
+     color: rgb(83, 83, 83);
+     font-family: "Patrick Hand", cursive;
+     text-align: center;
+     font-size: 30px; 
+
+}
+
+
+
+
+.session .tack{
+     width: 75px;
+     height: 75px;
+     transform: translateY(-75px);
+     margin: auto;
+     display: block;
+}
+
+
+.session .session_img{
+     background-color: rgb(46, 46, 46);
+     width: 600px;
+     height: 600px;
+     padding: 20px;
+     margin-top: 20px;
+     transform: translateY(-60px);
+     margin: auto;
+     display: block;
+     object-fit: cover;
+
+}
+
+.shadow{
+     box-shadow: 10px 10px 5px 2px rgba(0, 0, 0, 0.5);
+}
 
 
 .horizontal_button_group {
@@ -171,6 +224,8 @@ form .form_field {
  }
 
 
-
-
- 
+.handwritten {
+  font-family: "Patrick Hand", cursive;
+  font-weight: 400;
+  font-style: normal;
+}
