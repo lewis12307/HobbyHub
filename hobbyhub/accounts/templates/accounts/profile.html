@@ -1,5 +1,7 @@
 {% extends "base.html" %}
+
 {% load static %}
+
 
 
 
@@ -16,22 +18,21 @@
                <div class="stack">
                     <h1 class="profile_name">
                          {{ user.first_name }} 
-                         {% if user.last_name %}
-                              {{ user.last_name }}
-                         {% endif %}
+                         {% if user.last_name %}{{ user.last_name }}{% endif %}
                     </h1>
                     <h2 class="profile_username">@{{ user.get_username }}</h2>
                </div>
           </div>
           <div class="bio">
                {% if profile.bio %}
-                    <blockquote>
-                         {{ profile.bio }}
-                    </blockquote>
+                    <blockquote>{{ profile.bio }}</blockquote>
                {% endif %}
           </div>
 
 
+
+
+          {# if user is viewing their own profile, let them edit or delete their profile #}
           {% if viewer == user %}
                <div class="horizontal_button_group">
                     <a href="{% url 'accounts:edit' user.get_username %}" role="button">Edit Profile</a>
@@ -41,21 +42,28 @@
                     <button class="warning_button" type="button" onclick="openDialog('delete_profile')">Delete Profile</button>
                </div>
           {% else %}
-               {% if friend_status == None %}
-               <div class="horizontal_button_group">
-                    <button>Add Friend</button>
-                    <a href="{% url 'friends:search_friend'%}?q={{ old_search }}">
-                         <button class="outline extra_top_margin" type="button">Cancel</button>
-                    </a>
-               </div>
-               {% elif friend_status == "pending" %}
+          {# if viewer is someone else, let their friend status with the user profile determine what content they can see and what actions they can do #}
+               {% if friend_request is None %}
+                    <div class="horizontal_button_group">
+                         <form method="POST" action="{% url 'friends:add_friend' %}" class="no_margin_after">
+                              {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                              {% csrf_token %} 
+                              <input type="hidden" name="old_search" value="{{ old_search }}">
+                              <input type="hidden" name="friend_username" value="{{ user.get_username }}">
+                              <button type="submit" class="no_margin_after">Add Friend</button>
+                         </form>
+                         <a href="{% url 'friends:search_friend'%}?q={{ old_search }}" role="button" class="outline">
+                              Cancel
+                         </a>
+                    </div>
+               {% elif friend_request.status == "pending" %}
                     <div class="horizontal_button_group">
                               <button disabled>Pending</button>
                               <a href="{% url 'friends:search_friend'%}?q={{ old_search }}">
-                                   <button class="outline extra_top_margin" type=button">Ok</button>
+                                   <button class="outline extra_top_margin" type="button">Ok</button>
                               </a>
                     </div>
-               {% elif friend_status == "accepted" %}
+               {% elif friend_request.status == "accepted" %}
                     <form method="POST" action="{% url 'friends:remove_friend' %}">
                          {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
                          {% csrf_token %} 
@@ -63,15 +71,24 @@
                          <input type="hidden" name="friend_username" value="{{ user.get_username }}">
                          <button type="submit" class="no_margin_after warning_button">Remove Friend</button>
                     </form>
-                    </article>
-                    <article>
-                         {% include 'hobby_sessions/sessions_list.html' with sessions=sessions %}
+               </article>
+               <article>
+                    {% include 'hobby_sessions/sessions_list.html' with sessions=sessions %}
+               </article>
+               {% elif friend_request.status == "declined" and friend_request.receiver == viewer.userprofile %}
+                    <div class="horizontal_button_group">
+                         <form method="POST" action="{% url 'friends:add_friend' %}" class="no_margin_after">
+                              {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                              {% csrf_token %} 
 
-                    </article>
-
-
-               {% elif friend_status == "declined" %}
-                    
+                              <input type="hidden" name="old_search" value="{{ old_search }}">
+                              <input type="hidden" name="friend_username" value="{{ user.get_username }}">
+                              <button type="submit" class="no_margin_after">Add Friend</button>
+                         </form>
+                         <a href="{% url 'friends:search_friend'%}?q={{ old_search }}" role="button" class="outline">
+                              Cancel
+                         </a>
+                    </div>
                {% endif %}
           {% endif %}
 </article>

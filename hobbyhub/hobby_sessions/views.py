@@ -3,6 +3,12 @@ from hobby_sessions.models import Session
 
 from .forms import CreateSessionForm, EditSessionForm
 
+
+
+
+from django.contrib.auth.decorators import login_required
+
+
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
 from django.shortcuts import redirect
@@ -10,16 +16,17 @@ from django.shortcuts import redirect
 import random
 
 
-
+@login_required
 def create_session_view(request, hobby_name):
      user = request.user
      user_profile = user.userprofile
+
      hobby = get_object_or_404(Hobby, name=hobby_name, user_profile=user_profile)
 
-     if request.method == "POST":
-           # fill form with the user input from the request
-          create_session_form = CreateSessionForm(request.POST, request.FILES)
 
+     if request.method == "POST":
+          # fill form with the user input from the request
+          create_session_form = CreateSessionForm(request.POST, request.FILES)
 
           # validate and process form input
           if create_session_form.is_valid():
@@ -30,7 +37,6 @@ def create_session_view(request, hobby_name):
                description = cleaned_input["description"]
                upload = cleaned_input["upload"]
                friend_visibility = cleaned_input["friend_visibility"]
-
 
                # create a new Session instance
                session = Session.objects.create(
@@ -55,11 +61,11 @@ def create_session_view(request, hobby_name):
                "create_session_form": create_session_form,
           })
      
-     else:        # f method is GET or anything else
+     else:        # if request method is GET or anything else
           # create empty form for user to fill in to create a session for a specific Hobby 
           create_session_form = CreateSessionForm()
 
-          # show page listing all of user's hobbies, with ability to sort 
+          # show empty form for user to fill in to create a session for a specific Hobby
           return render(request, "hobby_sessions/create_session.html", {
                "hobby": hobby, 
                "create_session_form": create_session_form,
@@ -68,27 +74,30 @@ def create_session_view(request, hobby_name):
 
 
 
-
+@login_required
 def delete_session_view(request, hobby_name, session_id):
-     user = request.user
-     user_profile = user.userprofile
-
-     session = get_object_or_404(
-          Session,
-          id=session_id,
-          hobby__name=hobby_name,
-          hobby__user_profile=user_profile
-     )
-     
      if request.method == "POST":
+          # get required information in order to get correct session object
+          user = request.user
+          user_profile = user.userprofile
+
+          # get specific Session object
+          session = get_object_or_404(
+               Session,
+               id=session_id,
+               hobby__name=hobby_name,
+               hobby__user_profile=user_profile
+          )
+          
           # delete the Session from the database
           session.delete()
-
+          
+          # redirect to detail page for the specific Hobby
           return redirect("hobbies:hobby_detail", name=hobby_name)
 
 
 
-
+@login_required
 def edit_session_view(request, hobby_name, session_id):
      # get required information in order to get correct session object
      user = request.user
@@ -118,6 +127,8 @@ def edit_session_view(request, hobby_name, session_id):
                new_upload = cleaned_input["upload"]
                new_friend_visibility = cleaned_input["friend_visibility"]
 
+               # check if the data the user submitted in the form is different at all
+               # if it is, update the respective fields for the Session object
                if new_date != current_date:
                     session.date = new_date
                if new_start_time != current_start_time:
@@ -152,7 +163,7 @@ def edit_session_view(request, hobby_name, session_id):
                "upload": session.upload,
                "friend_visibility": session.friend_visibility,
           }
-          # fill in form with the current info in the user's profile
+          # fill in form with the current info for the session
           edit_session_form = EditSessionForm(initial=current_session_info)
           return render(request, "hobby_sessions/edit_session.html", {
                "edit_session_form": edit_session_form,

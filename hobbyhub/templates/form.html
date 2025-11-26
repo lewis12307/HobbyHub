@@ -30,6 +30,9 @@
                </div>
          </div>
      {% endfor %}
+
+
+     {{ other_inputs|safe }}
          
      <button type="submit">{{ submit_text|default:"Submit" }}</button>
  </form>

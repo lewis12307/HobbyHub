@@ -26,7 +26,7 @@
 }
 
 .no_margin_after {
-     margin-bottom: 0px;
+     margin-bottom: 0 !important;
 }
 
 
@@ -142,13 +142,13 @@ form .form_field {
 .horizontal_button_group {
      display: flex;
      gap: 20px;
+     align-items: center;
 }
 
 .horizontal_button_group a[role="button"],
 .horizontal_button_group button {
      padding: 0.75em 1em;
-     margin-top: 0 !important;
-     margin-bottom: 0 !important;
+     margin: 0 !important;
 }
 
 .outline {

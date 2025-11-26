@@ -3,6 +3,11 @@
      {% for session in sessions %}
           {% include 'hobby_sessions/single_session.html' %}
      {% empty %}
-          <p>You haven't added any sessions yet.</p>
+          {% if viewer != user %}
+               <p>Hmm... @{{ user.username }} does not have any sessions you can see yet.</p>
+          {% endif %}
+          {% if viewer == user %}
+               <p>You haven't added any sessions yet.</p>
+          {% endif %}
      {% endfor %}
 {% endblock %}
