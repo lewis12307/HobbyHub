@@ -95,7 +95,7 @@ form .form_field {
 
 .session h4 {
      color: rgb(80, 80, 80);
-     font-family: "Patrick Hand", cursive;
+     font-family: "caveat", cursive;
      text-align: center;
      font-size: 45px;
      font-weight: 600;
@@ -103,7 +103,7 @@ form .form_field {
 
 .session p{
      color: rgb(83, 83, 83);
-     font-family: "Patrick Hand", cursive;
+     font-family: "caveat", cursive;
      text-align: center;
      font-size: 30px; 
 
@@ -224,8 +224,3 @@ form .form_field {
  }
 
 
-.handwritten {
-  font-family: "Patrick Hand", cursive;
-  font-weight: 400;
-  font-style: normal;
-}
