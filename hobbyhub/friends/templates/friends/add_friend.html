@@ -15,9 +15,9 @@
           <div>
                {% if search_term %}
                     {% for user_profile in results %}
-                         {% include 'friends/friend_preview.html' with user_profile=user_profile action="search_friend" search_term=search_term pending_friends_ids=pending_friends_ids %}
+                         {% include 'friends/friend_preview.html' with user_profile=user_profile action="search_friend" search_term=search_term sent_pending_friends_ids=sent_pending_friends_ids %}
                     {% empty %}
-                         <p>Hmm... We couldn't find any users with that username.</p>
+                         <p>Hmm... It seems there isn’t anyone with that username you can add right now.</p>
                     {% endfor %}
                {% endif %}
           </div>

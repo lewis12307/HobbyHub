@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
 from accounts.models import UserProfile
-from friends.models import get_friend_status
+from friends.models import get_friend_request
 
 from django.contrib.auth import authenticate, login, logout
 from .forms import SignUpForm, LoginForm, EditProfileForm
 
 from django.views.decorators.cache import never_cache
+from django.contrib.auth.decorators import login_required
+
 
 
 
@@ -78,11 +80,11 @@ def signup_view(request):
                # redirect user to their dashboard, featuring notifications
                return redirect("dashboard")
 
-          # If input is invalid, notify user and show signup form again with errors
+          # if input is invalid, notify user and show signup form again with errors
           return render(request, "accounts/signup.html", {"signup_form": signup_form})
      
 
-     else:        # if request is GET or anything else
+     else:        # if request method is GET or anything else
           # create a blank signup form for user to fill in
           signup_form = SignUpForm()   
 
@@ -114,8 +116,11 @@ def login_view(request):
                # if the user exists and login credentials are correct, login the user
                if user:
                     login(request, user)
+                    next_url = request.POST.get("next")
+                    if next_url:
+                         return redirect(next_url)
                     return redirect("dashboard")   
-               # attach an error message to the form if authentication fails and display it to user
+               # attach an error message to the username and password fields if authentication fails and display it to user
                elif user is None:
                     login_form.add_error("username", "Hmm… something didn’t match. Please try entering your username and password again.")
                     login_form.add_error("password", "Hmm… something didn’t match. Please try entering your username and password again.")
@@ -127,45 +132,58 @@ def login_view(request):
           # create a blank login form for user to fill in
           login_form = LoginForm()   
 
+          next_value = request.GET.get("next", "")
+          next_input = f'<input type="hidden" name="next" value="{next_value}">'
+
           # render the template and show the empty login form to the user
-          return render(request, "accounts/login.html", {"login_form": login_form})
+          return render(request, "accounts/login.html", {
+               "login_form": login_form,
+               "next_input": next_input,
+          })
 
 
 
 
 
-
+@login_required
 def profile_view(request, username):
      if request.method == "GET":
 
           # check if user is logged in currently
           # only let logged-in users view profiles
           if request.user.is_authenticated: 
-               user = User.objects.get(username=username)
-               user_profile = user.userprofile        # access the UserProfile linked to the User
+               user = User.objects.get(username=username)     # get the User object with the given username
+               user_profile = user.userprofile                # get the UserProfile linked to this User, this is the UserProfile to display
 
-               viewer = request.user
-               viewer_profile = viewer.userprofile
+               viewer = request.user       # get the User who issued the request
+               viewer_profile = viewer.userprofile     # get the UserProfile linked to this User
 
-               # if the viewer is not the user, check what their friend status is 
+               # if the viewer is not the user, check if a friend request exists between the two user profiles
+               # this will determine what content the viewer can do, what actions viewer can do on shown user profile
                if viewer != user:
-                    friend_status = get_friend_status(user_profile, viewer_profile)
+                    friend_request = get_friend_request(user_profile, viewer_profile)
                else: 
-                    friend_status = None
+                    friend_request = None
 
-               sessions = user_profile.sessions.all()    # get all Sessions associated with that UserProfile
-               visible_sessions = sessions.filter(friend_visibility=True)
-               sorted_sessions = visible_sessions.order_by("-date", "-end_time")    # sort sessions by date, time in descending order (newest to oldest)
+               sessions = user_profile.sessions.all()      # get all Sessions associated with the target UserProfile
+               visible_sessions = sessions.filter(friend_visibility=True)    # only get the Sessions that the user profile would like to be visible to friends
+               sorted_sessions = visible_sessions.order_by("-date", "-end_time")    # sort Sessions by date, time in descending order (newest to oldest)
 
-               delete_url = reverse("accounts:delete")
-               old_search = request.GET.get("q", "")
+               # build the url needed to delete this UserProfile
+               # this is needed as context in the view so the Delete Profile Button displayed on profile page works
+               delete_url = reverse("accounts:delete")      
+
+               # get any search query parameters appended to the url to pass as context to view 
+               # in case viewer had searched this profile, this will allow viewer to go back to their old search results if desired
+               old_search = request.GET.get("q", "")       
+
                return render(request, "accounts/profile.html", {
                     "user": user,
                     "profile": user_profile,
+                    "sessions": sorted_sessions,
                     "delete_url": delete_url,
                     "viewer": viewer,
-                    "friend_status": friend_status,
-                    "sessions": sorted_sessions,
+                    "friend_request": friend_request,
                     "old_search": old_search,
                })          
           # if user is not logged in, redirect them to login page
@@ -173,7 +191,7 @@ def profile_view(request, username):
                return redirect('accounts:login') 
 
 
-
+@login_required
 def logout_view(request):
      if request.method == "POST":
           # logout user
@@ -184,7 +202,7 @@ def logout_view(request):
 
 
 
-
+@login_required
 def delete_profile_view(request):
      if request.method == "POST":
           user = request.user
@@ -199,13 +217,15 @@ def delete_profile_view(request):
      
 
 
-
+@login_required
 def edit_profile_view(request, username):
+     # get User and its current information
      user = request.user
      current_first_name = user.first_name
      current_last_name = user.last_name
      current_username = user.username
 
+     # get UserProfile and its current information
      user_profile = user.userprofile
      current_bio = user_profile.bio
      current_profile_picture = user_profile.profile_picture
@@ -224,7 +244,8 @@ def edit_profile_view(request, username):
                new_bio = cleaned_input["bio"]
                new_profile_picture = cleaned_input["profile_picture"]
 
-
+               # check if the data the user submitted in the form is different at all
+               # if so, update the respective fields on the User and UserProfile objects
                if new_first_name != current_first_name:
                     user.first_name = new_first_name
                if new_last_name != current_last_name:
@@ -250,12 +271,13 @@ def edit_profile_view(request, username):
 
      else:     # if request method is GET or anything else
           current_profile_info = {
-               "first_name": user.first_name,
-               "last_name": user.last_name,
-               "username": user.username,
-               "bio": user_profile.bio,
-               "profile_picture": user_profile.profile_picture,
+               "first_name": current_first_name,
+               "last_name": current_last_name,
+               "username": current_username,
+               "bio": current_bio,
+               "profile_picture": current_profile_picture,
           }
           # fill in form with the current info in the user's profile
           edit_profile_form = EditProfileForm(initial=current_profile_info)
+          
           return render(request, "accounts/edit_profile.html", {"edit_profile_form": edit_profile_form})

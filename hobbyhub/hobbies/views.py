@@ -1,6 +1,9 @@
 from .models import Hobby
-from .forms import CreateHobbyForm, SortHobbiesForm
 from django.db.models import Count, Sum, Max, F, ExpressionWrapper, DurationField
+from .forms import CreateHobbyForm, SortHobbiesForm
+
+
+from django.contrib.auth.decorators import login_required
 
 
 from django.shortcuts import get_object_or_404
@@ -12,13 +15,15 @@ from django.urls import reverse
 
 
 
+@login_required
 def create_hobby_view(request):
+     create_hobby_form.user = request.user
+     create_hobby_form.user_profile = request.user.userprofile
+     user_profile = request.user.userprofile
+     
      if request.method == "POST":
           # fill form with the user input from the request
           create_hobby_form = CreateHobbyForm(request.POST)
-          create_hobby_form.user = request.user
-          create_hobby_form.user_profile = request.user.userprofile
-          user_profile = request.user.userprofile
 
           # validate and process form input
           if create_hobby_form.is_valid():
@@ -41,11 +46,11 @@ def create_hobby_view(request):
                "create_hobby_form": create_hobby_form
           })
      
-     else:          # if method is GET or anything else
+     else:          # if request method is GET or anything else
           # create empty form for user to fill in to create a new Hobby
           create_hobby_form = CreateHobbyForm()
           return render(request, "hobbies/create_hobby.html", {
-               "create_hobby_form": create_hobby_form
+               "create_hobby_form": create_hobby_form,
           })    
 
 
@@ -53,25 +58,33 @@ def create_hobby_view(request):
 
 
 
-
+@login_required
 def hobby_detail_view(request, name):
      if request.method == "GET":
           user_profile = request.user.userprofile
 
+          # attach the number of sessions each hobby has as a new field called 'session_count'
+          # this is needed to display the number of sessions for each Hobby on its detail page
           hobbies = user_profile.hobbies.annotate(
                session_count=Count("sessions"),
           )
-          hobby = hobbies.get(name=name)
-          delete_hobby_url = reverse("hobbies:delete_hobby", args=[hobby.name])   # build the url to delete the specific Hobby
+          # get the specific Hobby object with the given name
+          hobby = hobbies.get(name=name) 
+
+          # build the url to delete the specific Hobby
+          # this is needed to pass as context to the view so the Delete Hobby button displayed on the hobby detail page works
+          delete_hobby_url = reverse("hobbies:delete_hobby", args=[hobby.name])   
           
 
-          sessions = hobby.sessions.all()    # get all sessions associated with hobby
+          sessions = hobby.sessions.all()                # get all sessions associated with Hobby
           sorted_sessions = sessions.order_by("-date", "-end_time")    # sort sessions by date, time in descending order (newest to oldest)
+          # add a 'delete_url' attribute to each session 
+          # this is needed so Delete Session button, dialog works 
           for session in sorted_sessions:
-               session.delete_url = reverse("hobby_sessions:delete_session", args=[hobby.name, session.id])
+               session.delete_url = reverse("hobby_sessions:delete_session", args=[hobby.name, session.id])    # build url needed to delete Session
 
      
-          # show page with info for single specific Hobby 
+          # show page with details for specific Hobby 
           return render(request, "hobbies/hobby_detail.html", {
                "hobby": hobby,
                "delete_hobby_url": delete_hobby_url,
@@ -84,10 +97,10 @@ def hobby_detail_view(request, name):
 
 
 
-
+@login_required
 def delete_hobby_view(request, name):
      if request.method == "POST":
-          hobby = get_object_or_404(Hobby, name=name, user_profile=request.user.userprofile)    # retrieve the Hobby object 
+          hobby = get_object_or_404(Hobby, name=name, user_profile=request.user.userprofile)    # get the specific Hobby object 
 
           # delete the Hobby from the database
           hobby.delete()
@@ -104,9 +117,9 @@ def delete_hobby_view(request, name):
 
 
 
-
+@login_required
 def hobbies_view(request):
-     user = request.user             # get the User that issued the request
+     user = request.user              # get the User that issued the request
      user_profile = user.userprofile     # get the UserProfile associated with the User
      
 
@@ -125,16 +138,6 @@ def hobbies_view(request):
      )
 
 
-
-     if request.method == "GET":
-          # create empty form to sort hobbies 
-          sort_form = SortHobbiesForm()
-
-          # show page listing all of user's hobbies, with ability to sort 
-          return render(request, "hobbies/hobbies.html", {
-               "hobbies": hobbies,
-               "sort_form": sort_form,
-          })
      
      if request.method == "POST":
           # fill form with the user input from the request
@@ -162,9 +165,20 @@ def hobbies_view(request):
                if order == "asc":
                     sort_field = sort_field.lstrip("-")
 
+               # sort hobbies according to given sort_field
                hobbies = hobbies.order_by(sort_field)
 
           # show page listing all of user's hobbies, with sorting applied
+          return render(request, "hobbies/hobbies.html", {
+               "hobbies": hobbies,
+               "sort_form": sort_form,
+          })
+     
+     else:     # if request method is GET or anything else
+          # create empty form to sort hobbies 
+          sort_form = SortHobbiesForm()
+
+          # show page listing all of user's hobbies, with ability to sort 
           return render(request, "hobbies/hobbies.html", {
                "hobbies": hobbies,
                "sort_form": sort_form,
