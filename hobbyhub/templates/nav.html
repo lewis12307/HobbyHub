@@ -3,7 +3,9 @@
           <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
           <li><a href="{% url 'hobbies:hobbies' %}">Hobbies</a></li>
           <li><a href="{% url 'friends:friends' %}">Friends</a></li>
+          <li><a href="{% url 'encouragement_notes:view_encouragement' %}">Notes</a></li>
      </ul>
+     
      <ul>
           <li>
                <a href="{% url 'accounts:profile' request.user.username %}">Profile</a>

@@ -32,6 +32,7 @@ urlpatterns = [
     path("hobbyhub/hobbies/", include("hobbies.urls")),
     path("hobbyhub/", include("hobby_sessions.urls")),
     path("hobbyhub/friends/", include("friends.urls")),
+    path("hobbyhub/encouragement/", include("encouragement_notes.urls")),
     path("hobbyhub/admin/", admin.site.urls),
 ]
 

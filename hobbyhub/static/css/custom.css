@@ -47,8 +47,8 @@ article {
 .clickable_area {
      display: flex;
      flex: 1;         
-     text-decoration: none;
      cursor: pointer;
+     text-decoration: none;
  }
 
 
@@ -81,6 +81,17 @@ form .form_field {
 .errors_div {
      margin-bottom: 20px;
 }
+
+
+
+
+.message.success {
+     background: #e9f7e9;          
+     color: #2a542a;      
+     border-left: 5px solid #6abf6a;           
+     padding: 30px;
+ }
+
 
 
 .session{
@@ -212,17 +223,24 @@ form .form_field {
      margin: 0;
  }
 
- .profile_preview {
+ .profile_preview, 
+ .friend_activity_preview {
      font-size: 0.6rem;
+     color: black;
      padding: 15px;
      margin: 15px;
  }
 
- .profile_preview .profile_picture {
+.profile_preview .profile_picture, 
+.friend_activity_preview .profile_picture {
      width: 7em;
      height: 7em;
  }
 
+.friend_activity_preview p {
+     font-size: 1rem;
+     margin: 0;
+}
 
 .handwritten {
   font-family: "Patrick Hand", cursive;

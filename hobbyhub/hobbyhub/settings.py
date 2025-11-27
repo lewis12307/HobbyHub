@@ -38,7 +38,9 @@ INSTALLED_APPS = [
     'accounts',
     'hobbies',
     'hobby_sessions',
-    'friends'
+    'friends',
+    'encouragement_notes',
+    'emoji_picker',
 ]
 
 MIDDLEWARE = [

@@ -1,9 +1,59 @@
 {% extends "base.html" %}
 
+{% load static %}
 
-{% block main_classes %}container{% endblock %}
+
+
 
 
 {% block content %}     
-     <h1>Dashboard</h1>    
+     <article>
+          {% if new_encouragement_notes %}
+               <h2><em>{{ new_encouragement_notes|length }}</em> New Notes From Friends</h2>
+
+               {% for note in new_encouragement_notes|slice:":3" %}
+                    <article>
+                         <p><strong>@{{ note.sender.user.username }}</strong> sent you a note :))</p>
+                         <small class="note_date">{{ note.sent_at|date:"M j, Y g:i A" }}</small>
+                    </article>
+               {% endfor %}  
+               {% if new_encouragement_notes|length > 3 %}  
+                    <h2>...</h2>
+               {% endif %}
+               <a href="{% url 'encouragement_notes:view_encouragement' %}" role="button">Read Your New Notes</a>
+          {% else %}
+               <h2> New Notes From Friends</h2>
+               <p>No new notes right now — but just wait !!! </p>
+          {% endif %}
+     </article>
+
+
+
+
+     <article>
+          <h2>What Your Friends Have Been Up To</h2>
+
+          {% if recent_friend_sessions %}
+               {% for session in recent_friend_sessions %}
+                    <article class="friend_activity_preview">
+                         <a href="{% url 'accounts:profile' session.user_profile.user.username %}" class="clickable_area"> 
+                              <div class="inline">
+                                   {% if session.user_profile.profile_picture %}
+                                        <img class="profile_picture" src="{{ session.user_profile.profile_picture.url }}" alt="{{ session.user_profile.user.username }}'s Profile Picture">
+                                   {% else %}
+                                        <img class="profile_picture" src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture">
+                                   {% endif %}
+                                   <div class="stack">
+                                        <p><strong>@{{ session.user_profile.user.username }}</strong> worked on <strong>{{ session.hobby.name }}</strong></p>
+                                        <small>{{ session.date|date:"M d" }}, {{ session.end_time|time:"g:i A" }} </small>
+                                   </div>
+                              </div>
+                         </a>
+                    </article>
+              
+               {% endfor %}
+          {% else %}
+               <p>No new updates from friends right now ... Check back soon!</p>
+          {% endif %}
+     </article>
 {% endblock %}

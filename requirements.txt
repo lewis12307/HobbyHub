@@ -5,3 +5,6 @@ Pillow
 
 # Required for form input validation
 regex
+
+# Required for emoji picker
+django-emoji-picker==0.0.6
