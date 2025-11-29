@@ -1,4 +1,5 @@
 from django import forms
+from emoji_picker.widgets import EmojiPickerTextInput, EmojiPickerTextarea
 
 from datetime import date, datetime
 from django.utils import timezone
@@ -30,7 +31,7 @@ class CreateSessionForm(forms.Form):
      description = forms.CharField(
           label="Little blurb", 
           help_text="Write a little note about your session.",
-          widget=forms.Textarea(attrs={"rows": 3}),
+          widget=EmojiPickerTextarea(attrs={"rows": 3}),
           required=False, 
           strip=True,
      )

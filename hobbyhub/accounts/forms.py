@@ -2,6 +2,7 @@ from accounts.models import UserProfile
 
 
 from django import forms
+from emoji_picker.widgets import EmojiPickerTextInput, EmojiPickerTextarea
 
 from django.core.validators import RegexValidator, MinLengthValidator, validate_image_file_extension
 from accounts.validators import username_validator
@@ -36,7 +37,6 @@ class SignUpForm(forms.Form):
           max_length=255, 
           strip=True, 
           required=False, 
-          empty_value=None, 
           validators=[RegexValidator(
                regex=r'^[^\W\d_]+(?:-[^\W\d_]+)*$',     # checks name contains only letters from any language and hyphens 
                message="Oops ... It looks like your last name has characters that aren't allowed. Please use letters and hyphens only.",
@@ -76,7 +76,7 @@ class SignUpForm(forms.Form):
 
      bio = forms.CharField(
           label="Bio", 
-          widget=forms.Textarea(attrs={"rows": 3}),
+          widget=EmojiPickerTextarea(attrs={"rows": 3}),
           help_text="Write a short bio to share a little about yourself.", 
           required=False, 
           empty_value=None,

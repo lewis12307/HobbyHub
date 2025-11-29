@@ -1,8 +1,9 @@
 
 {% block session_list %}
-     {% for session in sessions %}
-          {% include 'hobby_sessions/single_session.html' %}
-     {% empty %}
+     <div class="corkboard">
+          {% for session in sessions %}
+               {% include 'hobby_sessions/single_session.html' %}
+          {% empty %}
           {% if viewer != user %}
                <p>Hmm... @{{ user.username }} does not have any sessions you can see yet.</p>
           {% endif %}
@@ -10,4 +11,6 @@
                <p>You haven't added any sessions yet.</p>
           {% endif %}
      {% endfor %}
+     </div>
+     
 {% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+
+
+{% block content %}
+     <article>
+          <h4>Write a little note for your friend to remind them that you see their progress and are proud of them.</h4>
+            
+          {% include "form.html" with form=encouragement_note_form submit_text="Send" %}
+
+          <a href="{% url 'accounts:profile' recipient_username %}">
+               <button class="outline" type="submit">Cancel</button>
+          </a>
+     </article>    
+{% endblock %}

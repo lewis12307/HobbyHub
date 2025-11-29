@@ -68,9 +68,12 @@
                          {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
                          {% csrf_token %} 
           
-                         <input type="hidden" name="friend_username" value="{{ user.get_username }}">
+                         <input type="hidden" name="friend_username" value="{{ user.username }}">
                          <button type="submit" class="no_margin_after warning_button">Remove Friend</button>
                     </form>
+               </article>
+               <article>
+                    <a href="{% url 'encouragement_notes:send_encouragement' %}?to={{ profile.user.username }}" role="button">Send Note of Encouragement</a>
                </article>
                <article>
                     {% include 'hobby_sessions/sessions_list.html' with sessions=sessions %}

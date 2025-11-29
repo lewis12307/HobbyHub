@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+     <article>
+          <h1 class="center">Notes</h1>
+     </article>
+     <article>
+          <h2>New</h2>
+          {% for note in new_notes %}
+                    {% include 'encouragement_notes/encouragement_note.html' %}
+          {% empty %}
+               <p>No new notes yet — but just wait :) !</p>
+          {% endfor %}
+     </article>
+
+     <article>
+          <h2>Old</h2>
+          {% for note in old_notes %}
+                    {% include 'encouragement_notes/encouragement_note.html' %}
+          {% empty %}
+               <p>No old notes right now.</p>
+          {% endfor %}
+     </article>
+{% endblock %}

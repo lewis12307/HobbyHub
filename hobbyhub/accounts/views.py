@@ -58,7 +58,7 @@ def signup_view(request):
                     username=username, 
                     password=password, 
                     first_name=first_name, 
-                    last_name=last_name
+                    last_name=last_name,
                )
                # persist User to database
                user.save()   
@@ -72,8 +72,6 @@ def signup_view(request):
                # persist UserProfile to database
                user_profile.save()    
                
-               # display a success message so the user knows their profile was created
-               messages.success(request, "Yay! Your profile is all set.")
 
                # login in the new user
                login(request, user)
