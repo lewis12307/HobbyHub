@@ -24,7 +24,7 @@
 
    
     <h2>Sessions</h2>
-        {% include 'hobby_sessions/sessions_list.html' %}
+        {% include 'hobby_sessions/sessions_list.html' with owner=True %}
         <a href="{% url 'hobby_sessions:create_session' hobby.name %}" role="button">Add Session</a>
     </article>
 {% endblock %}

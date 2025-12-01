@@ -76,7 +76,7 @@
                     <a href="{% url 'encouragement_notes:send_encouragement' %}?to={{ profile.user.username }}" role="button">Send Note of Encouragement</a>
                </article>
                <article>
-                    {% include 'hobby_sessions/sessions_list.html' with sessions=sessions %}
+                    {% include 'hobby_sessions/sessions_list.html' with sessions=sessions owner=False %}
                </article>
                {% elif friend_request.status == "declined" and friend_request.receiver == viewer.userprofile %}
                     <div class="horizontal_button_group">

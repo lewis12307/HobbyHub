@@ -1,4 +1,6 @@
 from .models import Hobby
+from django.contrib.auth.models import User
+from accounts.models import UserProfile
 from django.db.models import Count, Sum, Max, F, ExpressionWrapper, DurationField
 from .forms import CreateHobbyForm, SortHobbiesForm
 
@@ -17,13 +19,13 @@ from django.urls import reverse
 
 @login_required
 def create_hobby_view(request):
-     create_hobby_form.user = request.user
-     create_hobby_form.user_profile = request.user.userprofile
      user_profile = request.user.userprofile
-     
+
      if request.method == "POST":
           # fill form with the user input from the request
           create_hobby_form = CreateHobbyForm(request.POST)
+          create_hobby_form.user = request.user
+          create_hobby_form.user_profile = request.user.userprofile
 
           # validate and process form input
           if create_hobby_form.is_valid():
@@ -60,9 +62,10 @@ def create_hobby_view(request):
 
 @login_required
 def hobby_detail_view(request, name):
-     if request.method == "GET":
-          user_profile = request.user.userprofile
+     user = request.user
+     user_profile = user.userprofile
 
+     if request.method == "GET":
           # attach the number of sessions each hobby has as a new field called 'session_count'
           # this is needed to display the number of sessions for each Hobby on its detail page
           hobbies = user_profile.hobbies.annotate(
