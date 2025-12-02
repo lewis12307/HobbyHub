@@ -94,6 +94,6 @@ html{
      background-image: url("../../static/images/wood-board-background.jpg");
      background-size: cover;
      padding: 30px;
-     border: 15px solid rgb(114, 103, 80);
+     border: 30px solid rgb(51, 51, 51);
      border-radius: 10px;
 }
