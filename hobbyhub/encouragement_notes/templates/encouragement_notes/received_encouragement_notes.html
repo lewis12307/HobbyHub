@@ -1,10 +1,8 @@
 {% extends "base.html" %}
 
+{% block notes_selected %}selected{% endblock %}
 
 {% block content %}
-     <article>
-          <h1 class="center">Notes</h1>
-     </article>
      <article>
           <h2>New</h2>
           {% for note in new_notes %}

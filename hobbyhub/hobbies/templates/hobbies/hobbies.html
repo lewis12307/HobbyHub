@@ -1,17 +1,16 @@
 {% extends 'base.html' %}
 
+{% block hobby_selected %}selected{% endblock %}
 
 {% block content %}
-     <article>
-          <h1 class="center">Hobbies</h1>
-     </article>
 
      <article>
-          <a href="{% url 'hobbies:create_hobby' %}" role="button">Create Hobby</a>
+          <a href="{% url 'hobbies:create_hobby' %}" class="action_button">Create Hobby</a>
      </article>
 
 
      <article>
+          <h2>My Hobbies</h2>
           <div>
                <form action="" method="POST">    
                     {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}

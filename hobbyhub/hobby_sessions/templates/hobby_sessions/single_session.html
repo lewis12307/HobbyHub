@@ -13,13 +13,13 @@
           {% endif %}
 
           <div> 
-               <h4 class="handwritten">Date: {{ session.date }}</h4>
-               <h4 class="handwritten">Duration: {{ session.duration }}</h4>
+               <h4 class="handwritten">{{ session.date }}</h4>
+               
           </div>
 
           {# show session description, only if user provided one #}
           {% if session.description %}
-               <p class="handwritten-small">Description: {{ session.description }}</p>
+               <p class="handwritten-small">{{ session.description }}</p>
           {% endif %}
 
 

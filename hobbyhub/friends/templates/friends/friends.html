@@ -1,12 +1,10 @@
 {% extends 'base.html' %}
 
+{% block friends_selected %}selected{% endblock %}
 
 {% block content %}
      <article>
-          <h1 class="center">Friends</h1>
-     </article>
-     <article>
-          <a href="{% url 'friends:add_friend' %}" role="button">Add Friend</a>
+          <a href="{% url 'friends:add_friend' %}" class="action_button">Add Friend</a>
      </article>
 
      <article>

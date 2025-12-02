@@ -7,6 +7,7 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/pico.css' %}">
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <script src="{% static '/js/dialog.js' %}"></script>
     <script src="{% static '/js/session_styling.js' %}"></script>
 
@@ -23,7 +24,40 @@
 
 <body class="{% block body_classes %}{% endblock %}">
     {% block nav %}
-        {% include 'nav.html' %}
+        <nav class="header">
+     
+            <ul>
+                <li>
+                    <h1 class="title">HobbyHub</h1>
+                </li>
+            </ul>
+     
+            <ul>
+          
+                <li><a class="{% block dashboard_selected %}{% endblock %} button" href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a class="{% block hobby_selected %}{% endblock %} button" href="{% url 'hobbies:hobbies' %}">Hobbies</a></li>
+                <li><a class="{% block friends_selected %}{% endblock %} button" href="{% url 'friends:friends' %}">Friends</a></li>
+                <li><a class="{% block notes_selected %}{% endblock %} button" href="{% url 'encouragement_notes:view_encouragement' %}" >Notes</a></li>
+            </ul>
+     
+        <ul>
+            <li>
+               <a class="{% block profile_selected %}{% endblock %} button" href="{% url 'accounts:profile' request.user.username %}">Profile</a>
+            </li>
+        <li>     
+            <a class="button warning_button" href="#" onclick="document.getElementById('logout-form').submit()"
+               >
+                    Logout
+            </a>
+            
+               <form id="logout-form" action="{% url 'accounts:logout' %}" method="POST" style="display: none;">
+                    {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                    {% csrf_token %} 
+               </form>
+          </li>              
+     </ul>
+
+</nav>
     {% endblock %}
 
     <main class="container {% block main_classes %}{% endblock %}">

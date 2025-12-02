@@ -3,13 +3,11 @@
 {% load static %}
 
 
+{% block dashboard_selected %}selected{% endblock %}
 
 
 
 {% block content %}   
-     <article>
-          <h1 class="center">Dashboard</h1>
-     </article>
      <article>
           {% if new_encouragement_notes %}
                <h2><em>{{ new_encouragement_notes|length }}</em> New Notes From Friends</h2>

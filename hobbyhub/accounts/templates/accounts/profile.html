@@ -3,7 +3,7 @@
 {% load static %}
 
 
-
+{% block profile_selected %}selected{% endblock %}
 
 {% block content %}
      <article>
@@ -35,7 +35,7 @@
           {# if user is viewing their own profile, let them edit or delete their profile #}
           {% if viewer == user %}
                <div class="horizontal_button_group">
-                    <a href="{% url 'accounts:edit' user.get_username %}" role="button">Edit Profile</a>
+                    <a href="{% url 'accounts:edit' user.get_username %}" class="action_button">Edit Profile</a>
 
                     {# include and show separate dialog to confirm user wants to delete their profile when they click 'Delete Profile' Button below #}
                     {% include "delete_dialog.html" with dialog_id="delete_profile" title="Your Account" message="Are you sure you would like to delete your profile? <br> This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it." %}
@@ -43,6 +43,7 @@
                </div>
           {% else %}
           {# if viewer is someone else, let their friend status with the user profile determine what content they can see and what actions they can do #}
+               {% block friend_selected %}selected{% endblock %}
                {% if friend_request is None %}
                     <div class="horizontal_button_group">
                          <form method="POST" action="{% url 'friends:add_friend' %}" class="no_margin_after">

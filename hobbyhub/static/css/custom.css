@@ -36,7 +36,6 @@
      width: 80% !important;
      min-width: 400px !important;
      max-width: 800px !important;
-     background-color: gray;
 }
 
 article {
@@ -95,15 +94,7 @@ form .form_field {
 
 
 
-.session{
-     background-color: rgb(255, 249, 238);
-     margin: auto;
-     color: black;
-     transform: rotate(5deg);
-     margin-top: 120px;
-     width: 600px;
-     
-}
+
 
 .session h4 {
      color: rgb(80, 80, 80);
@@ -167,28 +158,16 @@ form .form_field {
      border-width: 3px;
 }
 
-.warning_button {
-     background-color: #b44949;  
-     color: white;
-     border: #833434;
-     box-shadow: none !important;
-}
 
-.warning_button:hover {
-     background-color: #a34343;  
-}
-
-.corkboard{
-     background-image: url("../../static/images/wood-board-background.jpg");
-     background-size: cover;
-     padding: 30px;
+article{
+     box-shadow: 15px 15px 15px #ada4b1;
 }
 
 
 
-.header{
-     background-color: #17134d
-}
+
+
+
 
 
 
@@ -199,21 +178,8 @@ form .form_field {
 }
 
 
-.topnav{
-     background-color: rgb(184, 184, 184);
-     color: black;
-     padding-left: 20px;
-     padding-right: 20px;
-     margin: 5px;
-}
 
 
-.topnav:hover{
-     background-color: white;
-}
-html{
-     background-color: rgb(214, 214, 214);
-}
 
 
 main.container{
