@@ -33,9 +33,10 @@
 
 
 .container {
-     width: 80% !important;
+     width: 90% !important;
      min-width: 400px !important;
      max-width: 800px !important;
+     box-sizing: border-box;
 }
 
 article {
@@ -184,7 +185,7 @@ article{
 
 main.container{
      min-height: 80vh;
-     padding: 40px;
+     padding: 10px;
 }
 
 nav.container.header{
