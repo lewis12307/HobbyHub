@@ -5,9 +5,9 @@
 {% block content %}
      <article>
           <h3>Who would you like to add as a friend?</h3>
-          <p>Start typing a username to look up someone you’d like to friend.</p>
+          <p class="extra_top_margin">Start typing a username to look up someone you’d like to friend.</p>
           
-          <form method="GET" action="{% url 'friends:search_friend' %}" role="search">
+          <form method="GET" action="{% url 'friends:search_friend' %}" role="search" class="friend_search">
                <input type="search" name="q" value="{{ search_term }}">
                <button type="submit">Search</button>
           </form>

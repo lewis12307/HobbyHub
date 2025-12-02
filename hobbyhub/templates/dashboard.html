@@ -9,21 +9,21 @@
 {% block content %}   
      <article>
           {% if new_encouragement_notes %}
-               <h2><em>{{ new_encouragement_notes|length }}</em> New Notes From Friends</h2>
+               <h2><em>{{ new_encouragement_notes|length }}</em> New Kudos From Friends</h2>
 
                {% for note in new_encouragement_notes|slice:":3" %}
-                    <article>
-                         <p><strong>@{{ note.sender.user.username }}</strong> sent you a note :))</p>
+                    <article class="secondary_article">
+                         <p><strong>@{{ note.sender.user.username }}</strong> sent you kudos :))</p>
                          <small class="note_date">{{ note.sent_at|date:"M j, Y g:i A" }}</small>
                     </article>
                {% endfor %}  
                {% if new_encouragement_notes|length > 3 %}  
                     <h2>...</h2>
                {% endif %}
-               <a href="{% url 'encouragement_notes:view_encouragement' %}" role="button">Read Your New Notes</a>
+               <a href="{% url 'encouragement_notes:view_encouragement' %}" class="action_button">Read Your New Kudos</a>
           {% else %}
                <h2> New Kudos From Friends</h2>
-               <p>No new kudos right now — but just wait !!! </p>
+               <p>No new kudos right now ... but just wait !!! </p>
           {% endif %}
      </article>
 

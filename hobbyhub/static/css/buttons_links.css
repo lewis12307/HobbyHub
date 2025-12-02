@@ -1,0 +1,84 @@
+a {
+     color: #4D2585 !important;
+}
+
+button {
+     background-color: #4D2585 !important;
+     color: white;
+     border-radius: 5px !important;
+}
+
+button:hover {
+     background-color: #A780D4 !important;
+     border-color: #A780D4 !important;
+     border-radius: 5px !important;
+}
+
+/* override pico styling of outline button */
+.outline {
+     background-color: white !important;
+     border-color: #4D2585;
+     border-width: 3px;
+     border-radius: 5px;
+     color: #4D2585;
+}
+
+.outline:hover {
+     background-color: #DECFED !important;
+}
+
+ .warning_button{
+     background-color: #D24317 !important;  
+     color: white !important;
+     border: #833434 !important;
+     box-shadow: none !important;
+     border-radius: 8px;
+}
+
+.warning_button:hover{
+     background-color: #BD3C13 !important;  
+}
+
+.action_button{
+     padding: 15px 25px;
+     background-color: #4D2585;
+     --pico-text-decoration: none;
+     color: white !important;
+     border-radius: 8px;
+}
+ 
+.action_button:hover{
+     --pico-text-decoration: none;
+     background-color: #A780D4 !important;
+}
+
+.hobby_li{
+     display: block;
+     padding: 5px;
+     margin: 10px;
+     border-radius: 5px;
+     width: 150px;
+     background-color: #4D2585;
+     color: white !important;
+     text-align: center;
+     --pico-text-decoration: none;
+}
+
+.hobby_li:hover{
+     background-color: #A780D4;
+     color: white;
+     --pico-text-decoration: none;
+}
+
+.horizontal_button_group {
+     display: flex;
+     flex-direction: row !important;
+     gap: 20px;
+     align-items: center;
+     margin-top: 50px;
+}
+
+.horizontal_button_group button, .horizontal_button_group .action_button {
+     padding: 0.75em 1em;
+     margin: 0 !important;
+}

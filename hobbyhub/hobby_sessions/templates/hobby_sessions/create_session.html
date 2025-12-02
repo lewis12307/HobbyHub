@@ -2,11 +2,8 @@
 
 
 {% block content %}
-     <h1>{{ hobby.name|title }}</h1>
-
      <article>
-          <h2>New Session</h2>
-
+          <h2>New Session for {{ hobby.name|title }}</h2>
 
           {% include "form.html" with form=create_session_form form_attributes='enctype="multipart/form-data"' submit_text="Create" %}
      

@@ -3,22 +3,21 @@
 {% block hobby_selected %}selected{% endblock %}
 
 {% block content %}
-
-
      <article>
-          <h2 class="inline">My Hobbies</h2>
-          <a href="{% url 'hobbies:create_hobby' %}" class="action_button right">Create Hobby</a>
-          <br><br>
+          <div class="inline">
+               <h2>My Hobbies</h2>
+               <a href="{% url 'hobbies:create_hobby' %}" class="action_button right">Create Hobby</a>
+          </div>
           <div>
-               <form action="" method="POST">    
+               <form action="" method="POST" class="extra_top_margin inline">    
                     {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
                     {% csrf_token %} 
-                    
-                    {{ sort_form }}
+
+                    {{ sort_form.sort_choice }}
+                    {{ sort_form.order }}
+
                </form>
           </div>
-
           {% include 'hobbies/hobbies_list.html' %}
      </article>
-     
 {% endblock %}

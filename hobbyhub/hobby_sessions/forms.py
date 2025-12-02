@@ -30,7 +30,7 @@ class CreateSessionForm(forms.Form):
 
      description = forms.CharField(
           label="Little blurb", 
-          help_text="Write a little note about your session.",
+          help_text="Write a little blurb about your session.",
           widget=EmojiPickerTextarea(attrs={"rows": 3}),
           required=False, 
           strip=True,

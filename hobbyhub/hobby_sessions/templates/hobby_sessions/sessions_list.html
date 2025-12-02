@@ -4,12 +4,17 @@
           {% for session in sessions %}
                {% include 'hobby_sessions/single_session.html' %}
           {% empty %}
-               {% if owner == True %}
-                    <p>Hmm... @{{ user.username }} does not have any sessions you can see yet.</p>
-               {% else %}
-                    <p>You haven't added any sessions yet.</p>
-               {% endif %}
-     {% endfor %}
+               <article class="no_shadow">
+                    {% if owner == True %}
+                    <div class="inline">
+                         <p>You haven't added any sessions yet ...</p>
+                         <a href="{% url 'hobby_sessions:create_session' hobby.name %}" class="action_button">Add Session</a>
+                    </div>
+                    {% else %}
+                         <p>Hmm... @{{ user.username }} does not have any sessions you can see yet.</p>
+                    {% endif %}
+               </article>
+           {% endfor %}
      </div>
 {% endblock %}
 

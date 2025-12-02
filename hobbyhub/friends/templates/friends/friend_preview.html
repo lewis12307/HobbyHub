@@ -11,7 +11,6 @@
                {% else %}
                     <img class="profile_picture" src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture">
                {% endif %}
-
                <div>
                     <h1 class="profile_name">
                          {{ user_profile.user.first_name }} 
@@ -46,8 +45,8 @@
                     <input type="hidden" name="friend_request_id" value="{{ friend_request.id }}">
                     <input type="hidden" name="friend_username" value="{{ user_profile.user.username }}">
                     <div class="horizontal_button_group">
-                         <button type="submit" name="friend_request_response" value="decline" class="warning_button">Decline</button>
                          <button type="submit" name="friend_request_response" value="accept">Accept</button>
+                         <button type="submit" name="friend_request_response" value="decline" class="warning_button">Decline</button>
                     </div>
                </form>
           {% endif %}
