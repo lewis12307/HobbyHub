@@ -97,6 +97,7 @@ def signup_view(request):
 @never_cache
 # @never_cache forces the browser to always fetch a fresh copy of the form.
 # Without this, using the Back button after signup/login can load a stale version of the page containing an old CSRF token, which causes"CSRF token incorrect" errors when the form is resubmitted.
+
 def login_view(request):
      if request.method == "POST":
           # create a form instance and fill it with the data the user submitted

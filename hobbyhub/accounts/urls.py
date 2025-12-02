@@ -13,3 +13,5 @@ urlpatterns = [
      path("delete/", delete_profile_view, name="delete"),
      path("profile/<str:username>/", profile_view, name="profile"),
 ]
+
+
