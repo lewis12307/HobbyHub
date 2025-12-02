@@ -7,11 +7,11 @@
 
 
 
-{% block body_classes %}center background_image{% endblock %}
+{% block body_classes %}center{% endblock %}
 
 
 {% block content %}
-        <article>
+        <article class="no_shadow">
             <h2>Log In</h2>
             {% include "form.html" with form=login_form other_inputs=next_input|safe submit_text="Login" %}
             <p class="center">Don't have an account yet? &nbsp;<a href="{% url 'accounts:signup' %}">Sign Up</a></p>

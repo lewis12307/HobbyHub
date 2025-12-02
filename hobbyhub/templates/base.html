@@ -6,8 +6,16 @@
     <title>{% block title %}HobbyHub{% endblock %}</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/pico.css' %}">
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
+    <link rel="stylesheet" href="{% static 'css/layouts.css' %}">
+    <link rel="stylesheet" href="{% static 'css/forms.css' %}">
+    <link rel="stylesheet" href="{% static 'css/buttons_links.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+    <link rel="stylesheet" href="{% static 'css/sessions.css' %}">
+
+
+
     <script src="{% static '/js/dialog.js' %}"></script>
     <script src="{% static '/js/session_styling.js' %}"></script>
 
@@ -33,11 +41,10 @@
             </ul>
      
             <ul>
-          
                 <li><a class="{% block dashboard_selected %}{% endblock %} button" href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li><a class="{% block hobby_selected %}{% endblock %} button" href="{% url 'hobbies:hobbies' %}">Hobbies</a></li>
                 <li><a class="{% block friends_selected %}{% endblock %} button" href="{% url 'friends:friends' %}">Friends</a></li>
-                <li><a class="{% block notes_selected %}{% endblock %} button" href="{% url 'encouragement_notes:view_encouragement' %}" >Kudos</a></li>
+                <li><a class="{% block notes_selected %}{% endblock %} button" href="{% url 'encouragement_notes:view_encouragement' %}">Kudos</a></li>
             </ul>
      
         <ul>

@@ -231,7 +231,7 @@ def edit_profile_view(request, username):
 
      if request.method == "POST":
           # create a form instance and fill it with the data the user submitted
-          edit_profile_form = EditProfileForm(request.POST)  
+          edit_profile_form = EditProfileForm(request.POST, request.FILES)  
           edit_profile_form.user = user       # attach the user to the form to help with form validation
 
           # validate and process form input
@@ -256,7 +256,7 @@ def edit_profile_view(request, username):
                
                if new_bio != current_bio:
                     user_profile.bio = new_bio
-               if new_profile_picture != current_profile_picture:
+               if new_profile_picture:
                     user_profile.profile_picture = new_profile_picture
                user_profile.save()
 

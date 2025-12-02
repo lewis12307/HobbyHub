@@ -1,0 +1,33 @@
+.header{
+     background-color: #BD9FDF;
+     padding-left: 50px;
+     padding-right: 50px;
+     box-shadow: 5px 5px 20px 5px rgb(165, 165, 165);
+     height: 130px;
+}
+
+.selected{
+     background-color: rgb(255, 255, 255) !important;
+     font-weight: bold;
+ }
+ 
+.title{
+     color: #4D2585;
+     padding-top: 15px;
+}
+
+.button{
+     background-color: #E8DFF2;
+     color: #4D2585;
+     padding-left: 20px;
+     padding-right: 20px;
+     margin: 5px;
+    --pico-text-decoration: none;
+}
+
+.button:hover{
+    background-color: #D3BFE8;
+    --pico-text-decoration: none;
+}
+ 
+ 

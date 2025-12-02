@@ -2,7 +2,6 @@
 
 {% load static %}
 
-
 {% block profile_selected %}selected{% endblock %}
 
 {% block content %}
@@ -20,7 +19,7 @@
                          {{ user.first_name }} 
                          {% if user.last_name %}{{ user.last_name }}{% endif %}
                     </h1>
-                    <h2 class="profile_username">@{{ user.get_username }}</h2>
+                    <h2 class="profile_username no_margin_after">@{{ user.get_username }}</h2>
                </div>
           </div>
           <div class="bio">
@@ -73,11 +72,11 @@
                          <button type="submit" class="no_margin_after warning_button">Remove Friend</button>
                     </form>
                </article>
-               <article>
-                    <a href="{% url 'encouragement_notes:send_encouragement' %}?to={{ profile.user.username }}" role="button">Send Note of Encouragement</a>
+               <article class="corkboard">
+                    {% include 'hobby_sessions/sessions_list.html' with sessions=sessions owner=False %}
                </article>
                <article>
-                    {% include 'hobby_sessions/sessions_list.html' with sessions=sessions owner=False %}
+                    <a href="{% url 'encouragement_notes:send_encouragement' %}?to={{ profile.user.username }}" class="action_button">Send Kudos</a>
                </article>
                {% elif friend_request.status == "declined" and friend_request.receiver == viewer.userprofile %}
                     <div class="horizontal_button_group">

@@ -115,7 +115,7 @@ def edit_session_view(request, hobby_name, session_id):
 
      if request.method == "POST":
           # create a form instance and fill it with the data the user submitted
-          edit_session_form = EditSessionForm(request.POST)  
+          edit_session_form = EditSessionForm(request.POST, request.FILES)  
 
           # validate and process form input
           if edit_session_form.is_valid():
@@ -137,7 +137,7 @@ def edit_session_view(request, hobby_name, session_id):
                     session.end_time = new_end_time
                if new_description != current_description:
                     session.description = new_description
-               if new_upload != current_upload:
+               if new_upload:
                     session.upload = new_upload
                if new_friend_visibility != current_friend_visibility:
                     session.friend_visibility = new_friend_visibility

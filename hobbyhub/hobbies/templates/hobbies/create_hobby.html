@@ -2,12 +2,12 @@
 
 
 {% block content %}
-    <h1>New Hobby</h1>
-
-
-    {% include "form.html" with form=create_hobby_form submit_text="Create" %}
-
-    <a href="{% url 'hobbies:hobbies' %}">
-        <button class="outline" type="submit">Cancel</button>
-    </a>
+    <article>
+        <h1>New Hobby</h1>
+        {% include "form.html" with form=create_hobby_form submit_text="Create" %}
+    
+        <a href="{% url 'hobbies:hobbies' %}">
+            <button class="outline" type="submit">Cancel</button>
+        </a>
+    </article>
 {% endblock %}

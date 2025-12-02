@@ -1,0 +1,53 @@
+input {
+     margin-bottom: 10px !important;
+}
+
+.friend_search input,
+.friend-search button {
+    margin: revert !important;
+}
+
+textarea {
+     margin-bottom: 5px;
+}
+
+form .form_field {
+     margin-bottom: 2.5em;
+}
+
+.checkbox-inline {
+     display: flex;
+     align-items: center;
+     gap: 1.5rem;
+ }
+ 
+ .checkbox-inline input[type="checkbox"] {
+     margin-bottom: 2px !important;
+ }
+
+.help-text {
+     display: block;
+     color: #666;
+     font-size: 0.7rem;
+ }
+
+.errorlist, .error-message {
+     color: #b44949;
+     font-size: 0.8rem;
+     list-style-type: none !important;
+     padding: 0 !important;
+     margin: 0 !important;
+     max-width: 100%;
+     overflow-wrap: break-word;
+}
+
+.errors_div {
+     margin-bottom: 20px;
+}
+
+.message.success {
+     background: #e9f7e9;          
+     color: #2a542a;      
+     border-left: 5px solid #6abf6a;           
+     padding: 30px;
+ }

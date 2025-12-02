@@ -1,0 +1,63 @@
+.profile_header {
+     display: flex;
+     gap: 2rem;
+     align-items: center;
+     margin-bottom: 2rem;
+ }
+
+.profile_picture {
+     object-fit: cover;
+     width: 7.5em;
+     height: 7.5em;
+     border-radius: 50%;
+     border: 3px solid var(--pico-muted-border-color);
+ }
+
+ .profile_name {
+     font-size: 2em;
+     font-weight: bolder;
+     margin: 0;
+ }
+ 
+ .profile_username {
+     font-size: 1.5em;
+     color: var(--pico-muted-color);
+     margin: 0;
+ }
+
+ .profile_preview, 
+ .friend_activity_preview {
+     font-size: 0.6rem;
+     color: black;
+     padding: 15px;
+     margin: 15px;
+     background-color: #F3EFF7;
+ }
+
+.profile_preview .profile_picture, 
+.friend_activity_preview .profile_picture {
+     width: 7em;
+     height: 7em;
+ }
+
+ .profile_preview .horizontal_button_group {
+     margin-top: 0;
+ }
+
+.friend_activity_preview p {
+     font-size: 1rem;
+     margin: 0;
+}
+
+.clickable_area {
+     display: flex;
+     flex: 1;         
+     cursor: pointer;
+     text-decoration: none;
+ }
+
+ .clickable_area,
+ .clickable_area p,
+ .clickable_area a {
+     color: #4D2585 !important;
+ }

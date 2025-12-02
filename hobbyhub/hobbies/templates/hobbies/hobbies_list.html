@@ -1,8 +1,6 @@
 {% block hobby_list %}
-     {% for hobby in hobbies %}
-          
-          <a class="hobby_li" href="{% url 'hobbies:hobby_detail' hobby.name %}">{{ hobby.name|title }}</a>
-          
+     {% for hobby in hobbies %} 
+          <a class="hobby_li" href="{% url 'hobbies:hobby_detail' hobby.name %}">{{ hobby.name|title }}</a>  
      {% empty %}
           <p>You haven't added any hobbies yet.</p>
      {% endfor %}

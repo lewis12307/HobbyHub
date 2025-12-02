@@ -1,0 +1,23 @@
+# Django framework
+Django>=5.0,<6.0
+django-environ==0.9.0
+
+# Required for form input validation
+regex
+
+# Required for emoji picker
+django-emoji-picker==0.0.6
+
+# Required for ImageField for profile picture
+Pillow    
+
+# Serve static files efficiently in production
+whitenoise
+
+# PostgreSQL adapter for Python (Fly.io Postgres uses this)
+psycopg2-binary
+
+# Production WSGI server (Fly.io uses this to run your Django app)
+gunicorn
+
+  

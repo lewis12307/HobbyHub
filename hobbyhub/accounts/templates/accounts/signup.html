@@ -5,11 +5,11 @@
 {% endblock %}
 
 
-{% block body_classes %}center background_image{% endblock %}
+{% block body_classes %}center{% endblock %}
 
 
 {% block content %}
-    <article>
+    <article class="no_shadow">
         <h2>Sign Up</h2>
 
         {% include "form.html" with form=signup_form form_attributes='enctype="multipart/form-data"' submit_text="Sign Up" %}

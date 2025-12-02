@@ -1,107 +1,13 @@
-.session{
-     background-color: rgb(255, 249, 238);
-     margin: auto;
-     color: black;
-     /* transform: rotate(5deg); */
-     margin-top: 120px;
-     width: 600px;
-     
-}
-
-.inline{
-     display: inline;
-}
-
-.right{
-     float: right;
-}
-
-.header{
-     background-color: #BD9FDF;
-     padding-left: 50px;
-     padding-right: 50px;
-     box-shadow: 5px 5px 20px 5px rgb(165, 165, 165);
-     
-}
-
-.selected{
-    background-color: rgb(255, 255, 255) !important;
-    font-weight: bold;
-}
-
-.title{
-     color: #4D2585;
-     padding-top: 15px;
-}
-
-.button{
-     background-color: #E8DFF2;
-     color: #4D2585;
-     padding-left: 20px;
-     padding-right: 20px;
-     margin: 5px;
-    --pico-text-decoration: none;
-}
-
-
-.button:hover{
-    background-color: #D3BFE8;
-    --pico-text-decoration: none;
-}
-
 html{
      background-color: rgb(238, 238, 238);
 }
 
-.warning_button {
-     background-color: #D24317 !important;  
-     color: white !important;
-     border: #833434 !important;
-     box-shadow: none !important;
-     border-radius: 8px;
+.shadow{
+     box-shadow: 10px 10px 5px 2px rgba(0, 0, 0, 0.5);
 }
 
-.warning_button:hover {
-     background-color: #BD3C13 !important;  
+.no_shadow {
+     box-shadow: none;
 }
 
-.action_button{
-    padding: 15px;
-    background-color: #4D2585;
-    --pico-text-decoration: none;
-    color: white;
-    border-radius: 8px;
-}
 
-.action_button:hover{
-    --pico-text-decoration: none;
-    
-}
-
-.hobby_li{
-     padding: 5px;
-     margin: 10px;
-     border-radius: 5px;
-     display: block;
-     width: 150px;
-     text-align: center;
-     
-     background-color: #4D2585;
-     color: white;
-     --pico-text-decoration: none;
-     
-}
-
-.hobby_li:hover{
-     --pico-text-decoration: none;
-     background-color: #A780D4;
-     color: white;
-}
-
-.corkboard{
-     background-image: url("../../static/images/wood-board-background.jpg");
-     background-size: cover;
-     padding: 10px;
-     border: 10px solid rgb(51, 51, 51);
-     border-radius: 10px;
-}

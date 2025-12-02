@@ -1,4 +1,4 @@
-<form method="POST" {{ form_attributes }}>
+<form method="POST" {{ form_attributes }} class="extra_top_margin">
      {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
      {% csrf_token %} 
 
@@ -13,26 +13,31 @@
      {% endif %}
 
      {% for field in form %}
-         <div class="form_field">
-               {{ field.label_tag }}
-               {{ field }}
+          {% if field.field.widget.input_type == "checkbox" %}
+               <div class="form_field checkbox-inline">
+                    {{ field.label_tag }} {{ field }}
+          {% else %}
+               <div class="form_field">
+                    {{ field.label_tag }}
+                    {{ field }}
+          {% endif %}
 
-               <div class="errors_div">
-                    {% if field.errors %}
-                         {% for error in field.errors %}
-                              <p class="error-message">{{ error }}</p>
-                         {% endfor %}
-                    {% else %}
-                         {% if field.help_text %}
-                              <small class="help-text">{{ field.help_text }}</small>
+                    <div class="errors_div">
+                         {% if field.errors %}
+                              {% for error in field.errors %}
+                                   <p class="error-message">{{ error }}</p>
+                              {% endfor %}
+                         {% else %}
+                              {% if field.help_text %}
+                                   <small class="help-text">{{ field.help_text }}</small>
+                              {% endif %}
                          {% endif %}
-                    {% endif %}
-               </div>
-         </div>
+                    </div>
+           </div>    
      {% endfor %}
 
 
      {{ other_inputs|safe }}
          
-     <button type="submit">{{ submit_text|default:"Submit" }}</button>
+     <button type="submit" class="extra_top_margin">{{ submit_text|default:"Submit" }}</button>
  </form>
