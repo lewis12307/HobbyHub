@@ -1,7 +1,7 @@
-<article>
+<article class="kudos">
      <p>{{ note.sent_at|date:"D, M d Y" }}</p>
      <blockquote>{{ note.message }}</blockquote>
-     <small>
+     <small class="right">
           <strong>From:</strong> 
           <a href="{% url 'accounts:profile' note.sender.user.username %}">@{{ note.sender.user.username }}</a>,
                {{ user.first_name }} {% if user.last_name %}{{ user.last_name }}{% endif %}

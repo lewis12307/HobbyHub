@@ -19,3 +19,23 @@ html{
      box-shadow: none;
 }
 
+.background_color{
+     background-color: #DECFED;
+}
+
+.block{
+     display: block;
+     
+}
+
+.kudos{
+     font-family: "caveat", cursive;
+     font-size: 40px;
+     background-image: url("../../static/images/paper_background.jpg");
+
+     background-size: cover;
+}
+
+.right{
+     float: right;
+}

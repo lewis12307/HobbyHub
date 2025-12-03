@@ -45,6 +45,7 @@ button:hover {
      --pico-text-decoration: none;
      color: white !important;
      border-radius: 8px;
+     max-width: 200px;
 }
  
 .action_button:hover{
