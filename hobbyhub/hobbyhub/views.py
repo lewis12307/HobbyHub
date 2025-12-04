@@ -30,7 +30,9 @@ def dashboard_view(request):
      new_encouragement_notes = list(all_encouragement_notes_sorted.filter(seen=False))
           
 
+     selected = "dashboard"
      return render(request, "dashboard.html", {
           "recent_friend_sessions": recent_friend_sessions,
           "new_encouragement_notes": new_encouragement_notes,
+          "selected_page": selected,
      })

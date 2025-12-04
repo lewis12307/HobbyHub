@@ -4,6 +4,12 @@
      justify-content: center;  
 }
 
+.right {
+     display: flex;
+     justify-content: end;
+     margin-left: auto;
+}
+
 .stack {
      display: flex;
      flex-direction: column;
@@ -16,6 +22,10 @@
      gap: 1rem;
      align-items: center;
      justify-content: space-between;
+}
+
+.larger_gap {
+     gap: 2rem;
 }
 
 .wrap {
@@ -45,6 +55,10 @@ article {
      background-color: #F3EFF7;
 }
 
+.small_article {
+     padding: 5px 30px;
+}
+
 .dialog, .dialog p {
      font-family: var(--pico-font-family, sans-serif) !important; 
      font-size: 1rem !important;
@@ -52,10 +66,14 @@ article {
  }
 
 .extra_top_margin {
-     margin-top: 75px;
+     margin-top: 50px;
 }
 
 .no_margin_after {
      margin-bottom: 0 !important;
+}
+
+.no_margin_before {
+     margin-top: 0 !important;
 }
 

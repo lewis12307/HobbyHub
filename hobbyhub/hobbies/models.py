@@ -17,7 +17,6 @@ class Hobby(models.Model):
      )
 
      name = models.CharField(
-          unique=True,
           max_length=255,
      )
 

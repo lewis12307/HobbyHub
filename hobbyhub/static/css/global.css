@@ -1,8 +1,8 @@
-html{
+html {
      background-color: rgb(238, 238, 238);
 }
 
-.shadow{
+.shadow {
      box-shadow: 10px 10px 5px 2px rgba(0, 0, 0, 0.5);
 }
 
@@ -10,4 +10,12 @@ html{
      box-shadow: none;
 }
 
+
+p {
+     margin-top: 20px;
+}
+
+h1, h2, h3, h4 {
+     margin-bottom: 0 !important;
+}
 

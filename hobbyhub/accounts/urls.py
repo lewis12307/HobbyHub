@@ -9,9 +9,10 @@ urlpatterns = [
      path("signup/", signup_view, name="signup"),
      path("login/", login_view, name="login"),
      path("logout/", logout_view, name="logout"),
+     path("profile/<str:username>/", profile_view, name="profile"),
      path("profile/<str:username>/edit/", edit_profile_view, name="edit"),
      path("delete/", delete_profile_view, name="delete"),
-     path("profile/<str:username>/", profile_view, name="profile"),
+     path("friends/profile/<str:username>/", profile_view, name="friend_profile"),
 ]
 
 

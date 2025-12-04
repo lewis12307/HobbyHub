@@ -20,12 +20,13 @@ def friends_view(request):
      current_user_profile = current_user.userprofile
 
      pending_friend_requests = get_pending_friend_requests_received(current_user_profile)
-
      current_friends = get_friends(current_user_profile)
 
+     selected_page = "friends"
      return render(request, "friends/friends.html", {
           "pending_friend_requests": pending_friend_requests,
           "current_friends": current_friends,
+          "selected_page": selected_page,
      })
 
 
@@ -57,15 +58,19 @@ def search_friend_view(request):
           id__in=received_pending_friends_ids
      )
      
+     selected_page = "friends"
      return render(request, "friends/add_friend.html", {
           "search_term": search_term,
           "results": results, 
           "sent_pending_friends_ids": sent_pending_friends_ids,
+          "selected_page": selected_page,
      })
      
 
 @login_required
 def add_friend_view(request):
+     selected_page = "friends"
+
      if request.method == "POST":
           friend_username = request.POST.get('friend_username')
           # get the UserProfile with that username
@@ -77,11 +82,13 @@ def add_friend_view(request):
           )
 
           old_search = request.POST.get('old_search')
-          friend_profile_url = reverse('accounts:profile', args=[friend_user_profile.user.username])
+          friend_profile_url = reverse('accounts:friend_profile', args=[friend_user_profile.user.username])
           return redirect(f"{friend_profile_url}?q={old_search}")
 
      else:     # if request method is GET or anything else     
-          return render(request, "friends/add_friend.html")
+          return render(request, "friends/add_friend.html", {
+               "selected_page": selected_page,
+          })
 
 
 @login_required

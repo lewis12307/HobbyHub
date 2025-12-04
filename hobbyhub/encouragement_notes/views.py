@@ -15,6 +15,7 @@ from django.shortcuts import redirect
 
 
 def send_encouragement_view(request):
+     selected_page = "friends"
      if request.method == "POST":
           # create a form instance and fill it with the data the user submitted
           encouragement_note_form = EncouragementNoteForm(request.POST)
@@ -40,13 +41,14 @@ def send_encouragement_view(request):
                # persist EncouragementNote to database
                new_encouragement_note.save()  
 
-               messages.success(request, "Your note has been sent! Your friend is going to love it!")
+               messages.success(request, f"Kudos has been sent to @{receiver.user.username}! They will love it!")
                return redirect('accounts:profile', recipient_username)
 
           # if input is invalid, notify user and show form again with errors
           return render(request, "encouragement_notes/write_encouragement_note.html", {
                "encouragement_note_form": encouragement_note_form,
                "recipient_username": recipient_username,
+               "selected_page": selected_page,
           })
 
      else:
@@ -63,6 +65,7 @@ def send_encouragement_view(request):
           return render(request, "encouragement_notes/write_encouragement_note.html", {
                "encouragement_note_form": encouragement_note_form,
                "recipient_username": recipient_username,
+               "selected_page": selected_page,
           })
 
 
@@ -79,7 +82,7 @@ def see_encouragement_view(request):
      received_notes_sorted = received_notes.order_by("-sent_at")
      
      # get the encouragement notes that have already been seen 
-     old_notes = received_notes_sorted.filter(seen=True)
+     old_notes = list(received_notes_sorted.filter(seen=True))
      # get the encouragement notes that have not been seen yet
      new_notes = list(received_notes_sorted.filter(seen=False))
 
@@ -87,10 +90,12 @@ def see_encouragement_view(request):
      unseen_notes = received_notes_sorted.filter(seen=False)
      unseen_notes.update(seen=True)
 
+     selected_page = "encouragement_notes"
      return render(request, "encouragement_notes/received_encouragement_notes.html", {
         "received_notes": received_notes,
         "new_notes": new_notes,
         "old_notes": old_notes,
+        "selected_page": selected_page,
      })
 
 

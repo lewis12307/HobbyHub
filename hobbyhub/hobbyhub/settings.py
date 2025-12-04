@@ -3,23 +3,36 @@ import environ
 from pathlib import Path
 
 
-
-env = environ.Env(  
-    DEBUG=(bool, False),
-)
-
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR points to the root of your project.
+# Django uses it to build absolute paths for templates, static files, media files, etc.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Take environment variables from .env file
+
+
+# Initialize the environment reader.
+# This lets us safely access environment variables using env("VAR_NAME").
+env = environ.Env()
+
+# Load variables from the .env file into the environment.
+# Needed for local development so SECRET_KEY, DEBUG, DATABASE_URL, etc. work.
+environ.Env.read_env()
+
+# Load the .env file located in the project root.
+# Using BASE_DIR ensures Django always finds the correct .env path.
 environ.Env.read_env(BASE_DIR / '.env')
 
 
-# SECURITY WARNING: keep the secret key used in production secret!
+
+# Get SECRET_KEY from environment instead of hard-coding it.
+# This is required for security and deployment on Fly.io.
 SECRET_KEY = env('SECRET_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')  
+
+# DEBUG mode:
+# - Reads the value from the .env file during local development.
+# - Defaults to False for safety so production never accidentally runs with DEBUG=True.
+DEBUG = env.bool('DEBUG', default=False)
+
 
 
 
@@ -153,6 +166,17 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
 
+# MEDIA_URL = '/media/'          # tells the browser: “look under /media/ to load user-uploaded files
 
-MEDIA_URL = '/media/'          # tells the browser: “look under /media/ to load user-uploaded files
-MEDIA_ROOT = BASE_DIR /'media'       # tells Django to store all uploaded files in a folder named media/ inside the project’s base directory
+# MEDIA_ROOT = "/code/media"
+
+# MEDIA_ROOT = BASE_DIR /'media'       # tells Django to store all uploaded files in a folder named media/ inside the project’s base directory
+
+if os.environ.get("FLY_APP_NAME"):
+    # Running on Fly.io
+    MEDIA_ROOT = "/data/media"
+    MEDIA_URL = "/media/"
+else:
+    # Local dev
+    MEDIA_ROOT = BASE_DIR / "media"
+    MEDIA_URL = "/media/"

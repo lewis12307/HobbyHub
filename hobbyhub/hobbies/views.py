@@ -21,6 +21,8 @@ from django.urls import reverse
 def create_hobby_view(request):
      user_profile = request.user.userprofile
 
+     selected_page = "hobbies"
+
      if request.method == "POST":
           # fill form with the user input from the request
           create_hobby_form = CreateHobbyForm(request.POST)
@@ -45,7 +47,8 @@ def create_hobby_view(request):
           
           # if input is invalid, show the form again with errors
           return render(request, "hobbies/create_hobby.html", {
-               "create_hobby_form": create_hobby_form
+               "create_hobby_form": create_hobby_form,
+               "selected_page": selected_page,
           })
      
      else:          # if request method is GET or anything else
@@ -53,6 +56,7 @@ def create_hobby_view(request):
           create_hobby_form = CreateHobbyForm()
           return render(request, "hobbies/create_hobby.html", {
                "create_hobby_form": create_hobby_form,
+               "selected_page": selected_page,
           })    
 
 
@@ -88,10 +92,12 @@ def hobby_detail_view(request, name):
 
      
           # show page with details for specific Hobby 
+          selected_page = "hobbies"
           return render(request, "hobbies/hobby_detail.html", {
                "hobby": hobby,
                "delete_hobby_url": delete_hobby_url,
                "sessions": sorted_sessions,
+               "selected_page": selected_page,
           })
      
      return redirect("hobbies:hobby_detail", name=name)
@@ -140,8 +146,8 @@ def hobbies_view(request):
           last_session_date=Max("sessions__date")
      )
 
+     selected_page = "hobbies"
 
-     
      if request.method == "POST":
           # fill form with the user input from the request
           sort_form = SortHobbiesForm(request.POST)
@@ -175,6 +181,7 @@ def hobbies_view(request):
           return render(request, "hobbies/hobbies.html", {
                "hobbies": hobbies,
                "sort_form": sort_form,
+               "selected_page": selected_page,
           })
      
      else:     # if request method is GET or anything else
@@ -185,5 +192,6 @@ def hobbies_view(request):
           return render(request, "hobbies/hobbies.html", {
                "hobbies": hobbies,
                "sort_form": sort_form,
+               "selected_page": selected_page,
           })
                 

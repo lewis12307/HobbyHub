@@ -2,25 +2,41 @@
 
 {% load static %}
 
-{% block profile_selected %}selected{% endblock %}
 
 {% block content %}
      <article>
-          <div class="profile_header">
-               {% if profile.profile_picture %}
-                    <img class="profile_picture" src="{{ profile.profile_picture.url }}" alt="{{ user.get_username }}'s Profile Picture">
-               {% else %}
-                    <img class="profile_picture" src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture">
-               {% endif %}
-               
-     
-               <div class="stack">
-                    <h1 class="profile_name">
-                         {{ user.first_name }} 
-                         {% if user.last_name %}{{ user.last_name }}{% endif %}
-                    </h1>
-                    <h2 class="profile_username no_margin_after">@{{ user.get_username }}</h2>
+          <div class="inline">
+               <div class="profile_header">
+                    {% if profile.profile_picture %}
+                         <img class="profile_picture" src="{{ profile.profile_picture.url }}" alt="{{ user.get_username }}'s Profile Picture">
+                    {% else %}
+                         <img class="profile_picture" src="{% static 'images/default_profile_picture.jpg' %}" alt="Default Profile Picture">
+                    {% endif %}
+                              
+                    
+                    <div class="stack">
+                         <h1 class="profile_name">
+                              {{ profile.user.first_name }} 
+                              {% if profile.user.last_name %}{{ profile.user.last_name }}{% endif %}
+                         </h1>
+                         <h2 class="profile_username no_margin_after">@{{ profile.user.get_username }}</h2>
+                    </div>
                </div>
+               {% if viewer_profile != profile and friend_request.status == "accepted" %}
+               <div>
+                    <form method="POST" action="{% url 'friends:remove_friend' %}">
+                         {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                         {% csrf_token %} 
+          
+                         <input type="hidden" name="friend_username" value="{{ profile.user.username }}">
+                         <button type="submit" class="icon_button warning no_margin_after">
+                              <svg width="55px" height="55px" viewBox="0 0 1024 1024" class="icon">
+                                   <path d="M512 64a448 448 0 110 896 448 448 0 010-896zM288 512a38.4 38.4 0 0038.4 38.4h371.2a38.4 38.4 0 000-76.8H326.4A38.4 38.4 0 00288 512z"/>
+                              </svg>
+                         </button>
+                    </form>
+               </div>
+               {% endif %}
           </div>
           <div class="bio">
                {% if profile.bio %}
@@ -32,9 +48,10 @@
 
 
           {# if user is viewing their own profile, let them edit or delete their profile #}
-          {% if viewer == user %}
+          {% if viewer_profile == profile %}
+               </div>
                <div class="horizontal_button_group">
-                    <a href="{% url 'accounts:edit' user.get_username %}" class="action_button">Edit Profile</a>
+                    <a href="{% url 'accounts:edit' profile.user.get_username %}" class="action_button">Edit Profile</a>
 
                     {# include and show separate dialog to confirm user wants to delete their profile when they click 'Delete Profile' Button below #}
                     {% include "delete_dialog.html" with dialog_id="delete_profile" title="Your Account" message="Are you sure you would like to delete your profile? <br> This action cannot be undone." action_url=delete_url confirm_text="Yes, delete it." %}
@@ -42,21 +59,33 @@
                </div>
           {% else %}
           {# if viewer is someone else, let their friend status with the user profile determine what content they can see and what actions they can do #}
-               {% block friend_selected %}selected{% endblock %}
                {% if friend_request is None %}
                     <div class="horizontal_button_group">
                          <form method="POST" action="{% url 'friends:add_friend' %}" class="no_margin_after">
                               {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
                               {% csrf_token %} 
                               <input type="hidden" name="old_search" value="{{ old_search }}">
-                              <input type="hidden" name="friend_username" value="{{ user.get_username }}">
+                              <input type="hidden" name="friend_username" value="{{ profile.user.username }}">
                               <button type="submit" class="no_margin_after">Add Friend</button>
                          </form>
                          <a href="{% url 'friends:search_friend'%}?q={{ old_search }}" role="button" class="outline">
                               Cancel
                          </a>
                     </div>
-               {% elif friend_request.status == "pending" %}
+               {% elif friend_request.status == "pending" and viewer_profile == friend_request.receiver %}
+                         <form method="POST" action="{% url 'friends:respond_friend_request' %}">
+                              {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
+                              {% csrf_token %} 
+          
+                              <input type="hidden" name="friend_request_id" value="{{ friend_request.id }}">
+                              <input type="hidden" name="friend_username" value="{{ profile.user.username }}">
+
+                              <div class="horizontal_button_group">
+                                   <button type="submit" name="friend_request_response" value="accept">Accept</button>
+                                   <button type="submit" name="friend_request_response" value="decline" class="warning_button">Decline</button>
+                              </div>
+                         </form>
+               {% elif friend_request.status == "pending" and viewer_profile == friend_request.sender %}
                     <div class="horizontal_button_group">
                               <button disabled>Pending</button>
                               <a href="{% url 'friends:search_friend'%}?q={{ old_search }}">
@@ -64,19 +93,24 @@
                               </a>
                     </div>
                {% elif friend_request.status == "accepted" %}
-                    <form method="POST" action="{% url 'friends:remove_friend' %}">
-                         {# csrf_token generates a unique, hidden input field in an HTML form to protect against Cross-Site Request Forgery (CSRF) attacks #}
-                         {% csrf_token %} 
-          
-                         <input type="hidden" name="friend_username" value="{{ user.username }}">
-                         <button type="submit" class="no_margin_after warning_button">Remove Friend</button>
-                    </form>
+               </article>
+               <article>
+                    <h2>Send @{{profile.user.username}} some kudos?</h2>
+                    <div class="inline">
+                         <p>Do not forget to tell your friend you see their growth.</p>
+                         <a href="{% url 'encouragement_notes:send_encouragement' %}?to={{ profile.user.username }}" class="icon_button">
+                              <svg width="80px" height="80px" viewBox="0 0 349.219 349.219" class="icon">
+                                   <path d="M221.749,199.791c-9.697,0-15.851,10.811-17.306,10.811c-1.274,0-7.176-10.811-17.309-10.811c-9.855,0-17.904,8.128-18.432,17.973c-0.297,5.559,1.498,9.79,4.023,13.623c5.045,7.656,27.107,26.09,31.75,26.09c4.737,0,26.602-18.365,31.682-26.09c2.533-3.852,4.318-8.064,4.021-13.623C239.652,207.919,231.604,199.791,221.749,199.791z"/>
+                                   <path d="M139.36,199.791H46.471c-5.133,0-9.307,4.175-9.307,9.307c0,5.133,4.174,9.309,9.307,9.309h92.889c5.133,0,9.309-4.176,9.309-9.309S144.493,199.791,139.36,199.791z"/>
+                                   <path d="M46.471,179.311h137.734c5.131,0,9.307-4.176,9.307-9.31c0-5.131-4.176-9.307-9.307-9.307H46.471c-5.133,0-9.307,4.176-9.307,9.307C37.165,175.135,41.339,179.311,46.471,179.311z"/>
+                                   <path d="M101.208,238.884H46.474c-5.132,0-9.307,4.175-9.307,9.308c0,5.131,4.175,9.307,9.307,9.307h54.734c5.132,0,9.307-4.176,9.307-9.307C110.515,243.059,106.34,238.884,101.208,238.884z"/>
+                                   <path d="M342.973,81.797l-22.18-22.182c-4.025-4.027-9.393-6.244-15.113-6.244s-11.088,2.217-15.113,6.244l-44.164,44.162 H29.551C13.256,103.777,0,117.033,0,133.326v132.973c0,16.293,13.256,29.549,29.551,29.549h227.941c16.293,0,29.549-13.256,29.549-29.549v-98.615c0.75-0.57,1.451-1.182,2.102-1.832l53.83-53.83c4.027-4.028,6.246-9.395,6.246-15.113C349.219,91.193,347,85.827,342.973,81.797z M268.426,266.298c0,6.028-4.904,10.935-10.934,10.935H29.551c-6.029,0-10.936-4.904-10.936-10.935V133.326c0-6.029,4.906-10.934,10.936-10.934h198.555c1.859,0,1.859,0.561,1.191,0.952c-2.873,1.683-5.232,4.749-5.943,9.382l-5.265,34.404c-0.646,4.188,0.438,8.168,3.048,11.209c2.564,2.985,6.227,4.631,10.312,4.631c0.766,0,1.537-0.06,2.297-0.176l33.471-5.123 c0,0,1.211-0.461,1.211,1.728v86.899H268.426z"/>
+                              </svg>
+                         </a>
+                    </div>
                </article>
                <article class="corkboard">
                     {% include 'hobby_sessions/sessions_list.html' with sessions=sessions owner=False %}
-               </article>
-               <article>
-                    <a href="{% url 'encouragement_notes:send_encouragement' %}?to={{ profile.user.username }}" class="action_button">Send Kudos</a>
                </article>
                {% elif friend_request.status == "declined" and friend_request.receiver == viewer.userprofile %}
                     <div class="horizontal_button_group">
@@ -94,6 +128,7 @@
                     </div>
                {% endif %}
           {% endif %}
+     </div>
 </article>
 {% endblock %}
 

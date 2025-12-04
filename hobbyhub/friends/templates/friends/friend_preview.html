@@ -3,7 +3,7 @@
 
 
 <article class="profile_preview inline wrap">
-     <a href="{% url 'accounts:profile' user_profile.user.username %}{% if action == 'search_friend' %}?q={{ search_term }}{% endif %}" 
+     <a href="{% url 'accounts:friend_profile' user_profile.user.username %}{% if action == 'search_friend' %}?q={{ search_term }}{% endif %}" 
                class="clickable_area">
           <div class="inline">
                {% if user_profile.profile_picture %}
@@ -56,7 +56,11 @@
                     {% csrf_token %} 
 
                     <input type="hidden" name="friend_username" value="{{ user_profile.user.username }}">
-                    <button type="submit" class="no_margin_after warning_button">Remove Friend</button>
+                    <button type="submit" class="icon_button warning no_margin_after">
+                         <svg width="55px" height="55px" viewBox="0 0 1024 1024" class="icon">
+                              <path d="M512 64a448 448 0 110 896 448 448 0 010-896zM288 512a38.4 38.4 0 0038.4 38.4h371.2a38.4 38.4 0 000-76.8H326.4A38.4 38.4 0 00288 512z"/>
+                         </svg>
+                    </button>
                </form>
           {% endif %}
      </div>

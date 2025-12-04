@@ -23,6 +23,7 @@ def create_session_view(request, hobby_name):
 
      hobby = get_object_or_404(Hobby, name=hobby_name, user_profile=user_profile)
 
+     selected_page = "hobbies"
 
      if request.method == "POST":
           # fill form with the user input from the request
@@ -59,6 +60,7 @@ def create_session_view(request, hobby_name):
           return render(request, "hobby_sessions/create_session.html", {
                "hobby": hobby, 
                "create_session_form": create_session_form,
+               "selected_page": selected_page,
           })
      
      else:        # if request method is GET or anything else
@@ -69,6 +71,7 @@ def create_session_view(request, hobby_name):
           return render(request, "hobby_sessions/create_session.html", {
                "hobby": hobby, 
                "create_session_form": create_session_form,
+               "selected_page": selected_page,
           })
      
 
@@ -113,6 +116,8 @@ def edit_session_view(request, hobby_name, session_id):
      current_upload = session.upload
      current_friend_visibility = session.friend_visibility
 
+     selected_page = "hobbies"
+
      if request.method == "POST":
           # create a form instance and fill it with the data the user submitted
           edit_session_form = EditSessionForm(request.POST, request.FILES)  
@@ -150,6 +155,7 @@ def edit_session_view(request, hobby_name, session_id):
           return render(request, "hobby_sessions/edit_session.html", {
                "edit_session_form": edit_session_form,
                "hobby": hobby,
+               "selected_page": selected_page,
           })
 
 
@@ -168,6 +174,7 @@ def edit_session_view(request, hobby_name, session_id):
           return render(request, "hobby_sessions/edit_session.html", {
                "edit_session_form": edit_session_form,
                "hobby": hobby,
+               "selected_page": selected_page,
           })
      
 

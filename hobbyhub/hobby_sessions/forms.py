@@ -44,7 +44,7 @@ class CreateSessionForm(forms.Form):
           validators=[validate_image_file_extension],
           error_messages={     # override default error messages to be friendlier
                "invalid_extension": "Hmm… that file doesn’t seem to be an image. Please upload a JPG or PNG.",
-               "invalid_image": "Hmm… that file doesn’t look like an image I can read. Please upload a different file.",
+               "invalid_image": "Hmm… that file doesn’t look like an image I can read. Please upload a JPG or PNG.",
           } 
      )
 

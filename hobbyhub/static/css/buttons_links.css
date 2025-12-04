@@ -1,30 +1,38 @@
 a {
      color: #4D2585 !important;
+     text-decoration: none;
+}
+
+a:hover {
+     color: #321856 !important;
 }
 
 button {
      background-color: #4D2585 !important;
+     border-color: #4D2585 !important;
      color: white;
-     border-radius: 5px !important;
+     border-radius: px !important;
 }
 
 button:hover {
      background-color: #A780D4 !important;
-     border-color: #A780D4 !important;
-     border-radius: 5px !important;
+     border-color: #BD9FDF !important;
+     color: #4D2585 !important;
 }
 
 /* override pico styling of outline button */
 .outline {
      background-color: white !important;
-     border-color: #4D2585;
-     border-width: 3px;
-     border-radius: 5px;
+     border-color: #4D2585 !important;
+     border-width: 3.5px !important;
+     border-radius: 8px;
      color: #4D2585;
 }
 
 .outline:hover {
-     background-color: #DECFED !important;
+     background-color: #F3EFF7 !important;
+     color: #8352C5 !important;
+     border-color: #8352C5 !important;
 }
 
  .warning_button{
@@ -37,19 +45,20 @@ button:hover {
 
 .warning_button:hover{
      background-color: #BD3C13 !important;  
+     color: white !important;
 }
 
 .action_button{
      padding: 15px 25px;
      background-color: #4D2585;
+     border-radius: 8px;
      --pico-text-decoration: none;
      color: white !important;
-     border-radius: 8px;
 }
- 
-.action_button:hover{
-     --pico-text-decoration: none;
+
+.action_button:hover {
      background-color: #A780D4 !important;
+     --pico-text-decoration: none !important;
 }
 
 .hobby_li{
@@ -81,4 +90,38 @@ button:hover {
 .horizontal_button_group button, .horizontal_button_group .action_button {
      padding: 0.75em 1em;
      margin: 0 !important;
+}
+
+.icon_button {
+     background-color: transparent !important;
+     background: none !important;
+     border: none !important;
+     padding: 0 !important;
+     margin: 0 !important;
+     box-shadow: none !important;
+}
+
+.icon_button:hover {
+     background-color: transparent !important;
+}
+
+.icon_button .icon {
+     fill: #4D2585;
+}
+
+.icon_button .icon:hover {
+     fill: #9772c1 !important;
+}
+
+.icon_button.background {
+     background-color: white !important;
+     padding: 40px;
+}
+
+.icon_button.warning .icon {
+     fill: #D24317 !important;  
+}
+
+.icon_button.warning .icon:hover {
+     fill: #BD3C13 !important;  
 }

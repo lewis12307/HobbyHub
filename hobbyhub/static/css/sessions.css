@@ -10,7 +10,7 @@
 .session h4 {
      color: rgb(80, 80, 80);
      font-family: "caveat", cursive;
-     text-align: center;
+     /* text-align: center; */
      font-size: 2.5rem;
      font-weight: 600;
 }
@@ -18,7 +18,7 @@
 .session p{
      color: rgb(83, 83, 83);
      font-family: "caveat", cursive;
-     text-align: center;
+     /* text-align: center; */
      font-size: 1.75rem; 
 }
 
@@ -44,8 +44,6 @@
 }
 
 .corkboard{
-     background-image: url("../../static/images/wood-board-background.jpg");
+     background-image: url("../../static/images/corkboard-background.jpg");
      background-size: cover;
-     /* border: 10px solid rgb(51, 51, 51); */
-     /* border-radius: 10px; */
 }

@@ -161,8 +161,10 @@ def profile_view(request, username):
                # this will determine what content the viewer can do, what actions viewer can do on shown user profile
                if viewer != user:
                     friend_request = get_friend_request(user_profile, viewer_profile)
-               else: 
+                    selected_page = "friends"
+               else:      # viewer == user
                     friend_request = None
+                    selected_page = "profile"
 
                sessions = user_profile.sessions.all()      # get all Sessions associated with the target UserProfile
                visible_sessions = sessions.filter(friend_visibility=True)    # only get the Sessions that the user profile would like to be visible to friends
@@ -177,13 +179,13 @@ def profile_view(request, username):
                old_search = request.GET.get("q", "")       
 
                return render(request, "accounts/profile.html", {
-                    "user": user,
                     "profile": user_profile,
                     "sessions": sorted_sessions,
                     "delete_url": delete_url,
-                    "viewer": viewer,
+                    "viewer_profile": viewer_profile,
                     "friend_request": friend_request,
                     "old_search": old_search,
+                    "selected_page": selected_page,
                })          
           # if user is not logged in, redirect them to login page
           else:
@@ -229,6 +231,8 @@ def edit_profile_view(request, username):
      current_bio = user_profile.bio
      current_profile_picture = user_profile.profile_picture
 
+     selected_page = "profile"
+
      if request.method == "POST":
           # create a form instance and fill it with the data the user submitted
           edit_profile_form = EditProfileForm(request.POST, request.FILES)  
@@ -264,7 +268,10 @@ def edit_profile_view(request, username):
                return redirect("accounts:profile", username=username)  
 
           # if input is invalid, show the form again with errors
-          return render(request, "accounts/edit_profile.html", {"edit_profile_form": edit_profile_form})
+          return render(request, "accounts/edit_profile.html", {
+               "edit_profile_form": edit_profile_form,
+               "selected_page": selected_page,
+          })
 
 
 
@@ -279,4 +286,7 @@ def edit_profile_view(request, username):
           # fill in form with the current info in the user's profile
           edit_profile_form = EditProfileForm(initial=current_profile_info)
           
-          return render(request, "accounts/edit_profile.html", {"edit_profile_form": edit_profile_form})
+          return render(request, "accounts/edit_profile.html", {
+               "edit_profile_form": edit_profile_form,
+               "selected_page": selected_page,
+          })

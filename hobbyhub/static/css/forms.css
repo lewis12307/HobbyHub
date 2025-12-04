@@ -3,9 +3,36 @@ input {
 }
 
 .friend_search input,
-.friend-search button {
+.friend_search button {
     margin: revert !important;
+
+    /* outline: none !important;
+    box-shadow: 0 0 0 2px #4D2585 !important; */
+    /* outline: none !important;
+    border-color: #4D2585 !important; */
 }
+/* 
+form[role="search"],
+form[role="search"] {
+    outline: none !important;
+    border-color: #4D2585 !important;
+    box-shadow: 0 0 0 3px rgba(77, 37, 133, 0.35) !important;
+} */
+
+/* form[role="search"] button {
+     border-radius: var(--border-radius) !important;
+ } */
+
+/* form[role="search"] button {
+     all: unset;
+} */
+
+
+ input:focus {
+     outline: none !important;
+     border-color: #4D2585 !important;
+     background-color: #F3EFF7;
+ }
 
 textarea {
      margin-bottom: 5px;

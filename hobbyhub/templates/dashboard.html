@@ -3,8 +3,6 @@
 {% load static %}
 
 
-{% block dashboard_selected %}selected{% endblock %}
-
 
 {% block content %}   
      <article>
@@ -13,7 +11,7 @@
 
                {% for note in new_encouragement_notes|slice:":3" %}
                     <article class="secondary_article">
-                         <p><strong>@{{ note.sender.user.username }}</strong> sent you kudos :))</p>
+                         <p class="no_margin_before"><strong>@{{ note.sender.user.username }}</strong> sent you kudos :))</p>
                          <small class="note_date">{{ note.sent_at|date:"M j, Y g:i A" }}</small>
                     </article>
                {% endfor %}  
@@ -28,15 +26,13 @@
      </article>
 
 
-
-
      <article>
           <h2>What Your Friends Have Been Up To</h2>
 
           {% if recent_friend_sessions %}
                {% for session in recent_friend_sessions %}
                     <article class="friend_activity_preview">
-                         <a href="{% url 'accounts:profile' session.user_profile.user.username %}" class="clickable_area"> 
+                         <a href="{% url 'accounts:friend_profile' session.user_profile.user.username %}" class="clickable_area"> 
                               <div class="inline">
                                    {% if session.user_profile.profile_picture %}
                                         <img class="profile_picture" src="{{ session.user_profile.profile_picture.url }}" alt="{{ session.user_profile.user.username }}'s Profile Picture">

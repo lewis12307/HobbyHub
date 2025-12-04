@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <title>{% block title %}HobbyHub{% endblock %}</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/pico.css' %}">
+    <link rel="icon" href="{% static 'images/favicon.svg' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'css/pico.violet.css' %}">
     <link rel="stylesheet" href="{% static 'css/nav.css' %}">
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <link rel="stylesheet" href="{% static 'css/layouts.css' %}">
@@ -33,7 +34,6 @@
 <body class="{% block body_classes %}{% endblock %}">
     {% block nav %}
         <nav class="header">
-     
             <ul>
                 <li>
                     <h1 class="title">HobbyHub</h1>
@@ -41,15 +41,15 @@
             </ul>
      
             <ul>
-                <li><a class="{% block dashboard_selected %}{% endblock %} button" href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a class="{% block hobby_selected %}{% endblock %} button" href="{% url 'hobbies:hobbies' %}">Hobbies</a></li>
-                <li><a class="{% block friends_selected %}{% endblock %} button" href="{% url 'friends:friends' %}">Friends</a></li>
-                <li><a class="{% block notes_selected %}{% endblock %} button" href="{% url 'encouragement_notes:view_encouragement' %}">Kudos</a></li>
+                <li><a class="{% if selected_page == 'dashboard' %} selected {% endif %} button" href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a class="{% if selected_page == 'hobbies' %} selected {% endif %} button" href="{% url 'hobbies:hobbies' %}">Hobbies</a></li>
+                <li><a class="{% if selected_page == 'friends' %} selected {% endif %} button" href="{% url 'friends:friends' %}">Friends</a></li>
+                <li><a class="{% if selected_page == 'encouragement_notes' %} selected {% endif %} button" href="{% url 'encouragement_notes:view_encouragement' %}">Kudos</a></li>
             </ul>
      
         <ul>
             <li>
-               <a class="{% block profile_selected %}{% endblock %} button" href="{% url 'accounts:profile' request.user.username %}">Profile</a>
+               <a class="{% if selected_page == 'profile' %} selected {% endif %} button" href="{% url 'accounts:profile' request.user.username %}">Profile</a>
             </li>
         <li>     
             <a class="button warning_button" href="#" onclick="document.getElementById('logout-form').submit()"
