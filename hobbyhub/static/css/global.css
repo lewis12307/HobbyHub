@@ -1,5 +1,15 @@
-html {
+@media only screen and (max-width: 1050px){
+     .title{
+          display: none;
+     }
+}
+
+html{
      background-color: rgb(238, 238, 238);
+}
+
+.background_color{
+     background-color: #DECFED;
 }
 
 .shadow {
@@ -9,13 +19,3 @@ html {
 .no_shadow {
      box-shadow: none;
 }
-
-
-p {
-     margin-top: 20px;
-}
-
-h1, h2, h3, h4 {
-     margin-bottom: 0 !important;
-}
-

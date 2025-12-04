@@ -1,10 +1,14 @@
 .session{
      background-color: rgb(250, 246, 239);
-     margin: auto;
+     
      color: black;
      transform: rotate(5deg);
+     margin: 50px;
      margin-top: 120px;
-     width: 600px;
+     width: 30%;
+     min-width: 500px;
+     
+     display: inline-block;
 }
 
 .session h4 {
@@ -33,7 +37,7 @@
 .session .session_img{
      background-color: rgb(46, 46, 46);
      width: 600px;
-     height: 600px;
+     height: 400px;
      padding: 20px;
      margin-top: 20px;
      transform: translateY(-60px);

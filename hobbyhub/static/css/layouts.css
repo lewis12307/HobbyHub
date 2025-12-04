@@ -1,7 +1,8 @@
 .center {
      display: flex;
      align-items: center;       
-     justify-content: center;  
+     justify-content: center;
+     margin: auto;
 }
 
 .right {
@@ -32,13 +33,16 @@
      flex-wrap: wrap;
 }
 
+.block{
+     display: block;
+}
+
 .container {
      width: 90% !important;
      min-width: 400px !important;
-     max-width: 800px !important;
+     max-width: 1500px !important;
      box-sizing: border-box;
 }
-
 
 main .container{
      min-height: 80vh;
@@ -46,9 +50,12 @@ main .container{
 }
 
 article {
-     margin: 60px 0;
+     margin: auto;
+     margin-bottom: 50px;
+     margin-top: 50px;
      padding: 40px;
      box-shadow: 15px 15px 15px #ada4b1;
+     width: 90%
 }
 
 .secondary_article {
