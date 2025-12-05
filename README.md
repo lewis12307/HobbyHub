@@ -3,14 +3,11 @@
 ## Overview
 HobbyHub is a full-stack web app built with Django and styled with PicoCSS. 
 
-HobbyHub is designed to help users track their hobbies and monitor their progress over time. Users can also connect with friends to see their hobby activity and follow their progress. They can share short messages of encouragement to help keep each other motivated.
-
-This project was built as part of a full-stack web development course.
+HobbyHub is designed to help users track their hobbies and monitor their progress over time. Users can also connect with friends to see their hobby activity and follow their progress. Additionally, friends can share short messages of encouragement with one another to help keep each other motivated.
 
 ## Group Members
 - Ari Osmun
 - Lucy Lewis
-
 
 ## Features
 ### User Profiles
@@ -65,20 +62,18 @@ At the root level, we have the main `hobbyhub` project directory, which serves a
 Each major feature lives in its own Django app, with each app contained in its own folder. 
 - `accounts/` contains all functionality related to user authentication (signup, login/logout) and profile management (viewing, editing, deleting profiles)
 - `friends/` contains all functionality related to finding friends, sending friend requests, responding to friend requests, viewing friends, and removing friends
-- `encouragement_notes/` contains all functionality related to sending and viewing kudos messages between friends
-- `hobbies/` contains all functionality related to creating hobbies, deleting hobbies, viewing specific hobby details, viewing all your hobbies, and sorting hobbies.
-- `hobby_sessions/` contains all functionality for creating, editing, and deleting hobby sessions associated with a specific hobby  
-
-
+- `encouragement_notes/` contains all functionality related to sending kudos messages and viewing kudos messages received from friends
+- `hobbies/` contains all functionality related to creating hobbies, deleting hobbies, viewing specific hobby details, viewing all your hobbies, and sorting hobbies
+- `hobby_sessions/` contains all functionality related to creating, editing, and deleting hobby sessions associated with a specific hobby  
 
 Each Django app folder includes:
 - `apps.py`, which defines the app’s configuration so Django can register and manage the app
 - `__init__.py`, which marks the folder as a Python package so the app and its modules can be imported correctly
-- `urls.py`,which defines the feature’s URL patterns and maps them to the appropriate views
+- `urls.py`, which defines the feature’s URL patterns and maps them to the appropriate views
 - `views.py`, which contains the logic for handling incoming HTTP requests related to the feature
 - `models.py`, which defines the Django ORM models and database schema for the feature
 - `migrations/` folder, which contains Django’s migration files that track and apply changes to the database schema
-- `templates/<app name>` folder, which stores the HTML templates for that app
+- `templates/<app name>` folder, which stores the HTML templates for the feature
 - (Django app folders may also include a `forms.py` and `validators.py` when the feature requires custom forms or validation logic.)
 
 ## Setup
@@ -89,17 +84,15 @@ You can try the live version here: https://hobbyhub.fly.dev/
 ### Run HobbyHub Locally
 1. Clone the repository  
      ` git clone https://github.com/lewis12307/HobbyHub.git`  
-     `cd hobbyhub`
-
-2. Create and activate a virtual environment:  
+2. Create and activate a virtual environment   
      `python3 -m venv venv`  
      `source venv/bin/activate     # macOS/Linux`   
      `venv\Scripts\activate        # Windows`  
-3. Install dependencies:  
+3. Install dependencies  
      `pip install -r requirements.txt`    
-4. Apply database migrations:  
+4. Apply database migrations   
      `python manage.py migrate`  
-5. Start the development server:  
+5. Start the development server  
      `python manage.py runserver`  
 6. Visit the app at:  
      `http://127.0.0.1:8000/`
