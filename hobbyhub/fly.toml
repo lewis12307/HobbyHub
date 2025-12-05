@@ -12,6 +12,9 @@ console_command = '/code/manage.py shell'
 [deploy]
   release_command = 'python manage.py migrate'
 
+[scale]
+  min = 1
+
 [env]
   PORT = '8000'
 

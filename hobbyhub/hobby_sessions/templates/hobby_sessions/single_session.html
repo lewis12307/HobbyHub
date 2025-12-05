@@ -28,7 +28,7 @@
                </a>
 
                {# include and show separate dialog to confirm user wants to delete this Session, when they click 'Delete Session' Button below #}
-               {% include "delete_dialog.html" with dialog_id="delete_session" title="Session" message="Are you sure you would like to delete thi session? <br> This action cannot be undone." action_url=session.delete_url confirm_text="Yes, delete it." %}
+               {% include "delete_dialog.html" with dialog_id="delete_session" title="Session" message="Are you sure you would like to delete this session? <br> This action cannot be undone." action_url=session.delete_url confirm_text="Yes, delete it." %}
                <button class="icon_button warning" type="button" onclick="openDialog('delete_session')">
                     <svg height="45px" width="45px" viewBox="0 0 56 56" class="icon">
                          <path
