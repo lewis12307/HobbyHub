@@ -4,6 +4,6 @@
      <small class="right">
           <strong>From:</strong> 
           <a href="{% url 'accounts:profile' note.sender.user.username %}">&nbsp;@{{ note.sender.user.username }}</a>,
-               {{ user.first_name }} {% if user.last_name %}{{ user.last_name }}{% endif %}
+               {{ note.sender.user.first_name }} {% if user.last_name %}{{ note.sender.user.last_name }}{% endif %}
      </small>
 </article>

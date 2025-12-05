@@ -10,9 +10,6 @@ django-emoji-picker==0.0.6
 
 # Required for ImageField for profile picture
 Pillow    
-# Adds HEIC/HEIF image support to Pillow
-pillow-heif
-
 
 # Serve static files efficiently in production
 whitenoise
